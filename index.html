@@ -4,6 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pranav · Economics & Math, UT Austin</title>
+<meta name="description" content="Pranav, an economics and math student at UT Austin doing empirical macro research in R. Open to research assistant roles.">
+<meta name="theme-color" content="#325174">
+<link rel="canonical" href="https://pr8music.github.io/portfolio/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='125%20127%20354%20352'%3E%3Cpath%20fill='%23000'%20stroke='%23000'%20stroke-width='16'%20d='M429.042%20471H410.77C418.44%20432.883%20425.207%20400.119%20431.072%20372.706C436.938%20345.294%20441.562%20321.797%20444.946%20302.217C448.329%20282.375%20450.021%20265.275%20450.021%20250.916C450.021%20223.503%20444.72%20202.618%20434.118%20188.259C423.741%20173.639%20409.53%20166.329%20391.483%20166.329C380.204%20166.329%20369.264%20169.331%20358.662%20175.336C348.059%20181.079%20339.375%20189.825%20332.607%20201.573C325.84%20213.322%20322.456%20227.811%20322.456%20245.042C322.456%20262.273%20325.953%20276.762%20332.946%20288.51C339.939%20299.998%20349.075%20305.741%20360.353%20305.741L366.782%20266.58H401.634L367.459%20471H135L169.175%20266.58H204.027L173.236%20451.811H335.991L356.97%20325.713C346.368%20325.191%20336.893%20321.275%20328.547%20313.965C320.426%20306.655%20313.997%20296.995%20309.26%20284.986C304.748%20272.716%20302.492%20259.009%20302.492%20243.867C302.492%20228.464%20304.974%20214.235%20309.937%20201.182C314.899%20187.867%20321.667%20176.249%20330.239%20166.329C338.811%20156.408%20348.736%20148.706%20360.015%20143.224C371.294%20137.741%20383.25%20135%20395.882%20135C410.545%20135%20423.516%20138.916%20434.795%20146.748C446.073%20154.319%20454.871%20165.807%20461.187%20181.21C467.729%20196.352%20471%20215.41%20471%20238.385C471%20249.611%20470.098%20262.012%20468.293%20275.587C466.488%20289.163%20463.781%20304.958%20460.172%20322.972C456.563%20340.986%20452.164%20362.133%20446.976%20386.413C441.788%20410.431%20435.81%20438.627%20429.042%20471Z'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pranav · Economics &amp; Math, UT Austin">
+<meta property="og:description" content="Pranav, an economics and math student at UT Austin doing empirical macro research in R. Open to research assistant roles.">
+<meta property="og:url" content="https://pr8music.github.io/portfolio/">
+<meta name="twitter:card" content="summary">
+<noscript><style>
+  .view { display: block; }
+  .view + .view { border-top: 1px solid #000; }
+  .code, .tib, .stage, .figbtns, .toolkit .tk-head button, [data-email], #copy-email, #c-email, #filters, .reasons, .c-form { display: none !important; }
+  .sr-only { position: static; width: auto; height: auto; overflow: visible; clip: auto; white-space: normal; border-collapse: collapse; font: 13px var(--mono); }
+  .sr-only th, .sr-only td { border: 1px solid #ccc; padding: 6px 9px; text-align: left; }
+  .pc-more, .acc-body { grid-template-rows: 1fr !important; }
+  .witem .d { max-height: none; }
+  .fig-inner { padding-top: 56px; }
+</style></noscript>
 <style>
   :root {
     --navy: #325174; --orange: #bf5700; --ink: #000; --paper: #fff; --muted: #666;
@@ -62,10 +81,6 @@
   .now div { display: grid; grid-template-columns: 88px 1fr; gap: 12px; align-items: baseline; padding: 12px 0; border-bottom: var(--line); }
   .now dt { color: var(--orange); font-size: 14px; }
   .now dd { margin: 0; font-size: 17px; }
-  .latest { text-decoration: none; }
-  .latest span { display: inline-block; color: var(--orange); transition: transform .2s; }
-  .latest:hover { color: var(--navy); }
-  .latest:hover span { transform: translate(3px, -3px); }
 
   .fig { margin: 0; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
   .fig-box { position: relative; flex: 1; min-height: 440px; border: var(--line); background: var(--paper); }
@@ -97,6 +112,7 @@
     height: 30px; padding: 0 12px; font-size: 15px; cursor: grab; touch-action: none; user-select: none;
     position: relative; z-index: 2; transition: background .15s;
   }
+  @media (pointer: coarse) { .toolkit .tag { touch-action: pan-y; } }
   .toolkit .tag:hover { background: var(--orange); }
   .toolkit .tag.orange:hover { background: var(--navy); }
   .toolkit .tag.dragging { cursor: grabbing; z-index: 60; box-shadow: 4px 4px 0 var(--ink); }
@@ -145,6 +161,8 @@
   .stage.live .tib-info { opacity: 1; }
   .figbtns { display: flex; gap: 8px; flex: none; }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .sr-only:focus-within { position: static; width: auto; height: auto; overflow: visible; clip: auto; white-space: normal; font-size: 13px; }
+  .sr-only a:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
 
   /* ---------- selected work ---------- */
   .work { padding: clamp(28px, 6vh, 64px) var(--pad); border-top: var(--line); }
@@ -164,7 +182,8 @@
   .witem .d { grid-column: 1 / -1; font-size: 15px; color: #333; max-height: 0; overflow: hidden; transition: max-height .3s ease; line-height: 1.45; }
   .witem:hover .t { color: var(--navy); }
   .witem:hover .t i { opacity: 1; transform: none; }
-  .witem:hover .d, .witem:focus-visible .d { max-height: 80px; }
+  .witem:hover .d, .witem:focus-visible .d { max-height: 120px; }
+  @media (hover: none) { .witem .d { max-height: none; margin-top: 2px; } .witem .t i { opacity: 1; transform: none; } }
 
   /* ---------- footer ---------- */
   footer {
@@ -183,6 +202,13 @@
     display: inline-flex; align-items: center; font-weight: 700; background: var(--paper);
   }
   .wordbox::after { content: ""; position: absolute; top: -1px; right: -1px; width: 49px; height: 13px; background: var(--orange); }
+  h1.heading { margin: 0; font-weight: 400; }
+  h1[tabindex="-1"]:focus { outline: none; }
+  .namebox:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+  .pc-toggle { font: inherit; color: inherit; text-align: left; display: flex; align-items: center; gap: 10px; }
+  .pc-toggle:focus-visible { outline: 2px solid var(--navy); outline-offset: 4px; }
+  .pcard:has(.pc-toggle:focus-visible) { border-color: var(--navy); box-shadow: 7px 7px 0 var(--navy); }
+  .acc-row:focus-visible, .chip:focus-visible, .btn:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
   .tags { display: flex; flex-wrap: wrap; gap: 8px; }
   .tag {
     background: var(--navy); color: #fff; font-size: 15px; height: 26px; padding: 0 10px;
@@ -223,7 +249,6 @@
   .pc-more .go { display: inline-block; margin: 8px 0 4px; font-size: 15px; color: var(--navy); text-underline-offset: 3px; }
   .pc-more .go:hover { color: var(--orange); }
   .pcard.hide { display: none; }
-  .empty-note { font-size: 15px; color: var(--muted); }
 
   .c-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: var(--gap); align-items: start; }
   .c-panel { border: var(--line); background: var(--paper); position: relative; }
@@ -264,7 +289,6 @@
     background: var(--navy); color: #fff; font-size: 14px; transition: transform .3s cubic-bezier(.3,1.6,.5,1);
   }
   .dot.o { background: var(--orange); }
-  .dot.ghost { background: none; border: 1px dashed #999; color: #999; }
   .acc-row:hover .dot { transform: rotate(-45deg) scale(1.1); }
   .acc-title { font-size: 19px; }
   .acc-sub { font-size: 14px; color: var(--muted); margin-left: 6px; }
@@ -278,11 +302,6 @@
   .acc-body p, .acc-body ul { margin: 0 0 16px 40px; font-size: 15px; line-height: 1.5; color: #222; max-width: 62ch; }
   .acc-body ul { padding-left: 18px; }
   .acc-body a { color: var(--navy); }
-  .acc-item.todo .acc-title { color: var(--muted); }
-  #t-projects { cursor: default; }
-  #t-projects .acc { margin-top: 4px; }
-  #t-projects .acc-sub { display: none; }
-  #t-projects .acc-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 
   /* ---------- research view (editorial, roomy) ---------- */
   .r-wrap {
@@ -349,7 +368,7 @@
 </style>
 </head>
 <body>
-<nav>
+<nav aria-label="Main">
   <a class="logo" href="#home" aria-label="Home"><svg width="36" height="36" viewBox="125 127 354 352" aria-hidden="true"><path fill="#000" stroke="#000" stroke-width="16" stroke-linejoin="miter" d="M429.042 471H410.77C418.44 432.883 425.207 400.119 431.072 372.706C436.938 345.294 441.562 321.797 444.946 302.217C448.329 282.375 450.021 265.275 450.021 250.916C450.021 223.503 444.72 202.618 434.118 188.259C423.741 173.639 409.53 166.329 391.483 166.329C380.204 166.329 369.264 169.331 358.662 175.336C348.059 181.079 339.375 189.825 332.607 201.573C325.84 213.322 322.456 227.811 322.456 245.042C322.456 262.273 325.953 276.762 332.946 288.51C339.939 299.998 349.075 305.741 360.353 305.741L366.782 266.58H401.634L367.459 471H135L169.175 266.58H204.027L173.236 451.811H335.991L356.97 325.713C346.368 325.191 336.893 321.275 328.547 313.965C320.426 306.655 313.997 296.995 309.26 284.986C304.748 272.716 302.492 259.009 302.492 243.867C302.492 228.464 304.974 214.235 309.937 201.182C314.899 187.867 321.667 176.249 330.239 166.329C338.811 156.408 348.736 148.706 360.015 143.224C371.294 137.741 383.25 135 395.882 135C410.545 135 423.516 138.916 434.795 146.748C446.073 154.319 454.871 165.807 461.187 181.21C467.729 196.352 471 215.41 471 238.385C471 249.611 470.098 262.012 468.293 275.587C466.488 289.163 463.781 304.958 460.172 322.972C456.563 340.986 452.164 362.133 446.976 386.413C441.788 410.431 435.81 438.627 429.042 471Z"/></svg></a>
   <div class="links">
     <a href="#research" data-v="research">research</a>
@@ -363,7 +382,7 @@
   <section class="view on" id="v-home">
     <div class="hero">
       <div class="intro">
-        <h1><span id="greet">Hey, I’m</span> <span class="namebox" id="namebox" title="click me"><span id="name">Pranav</span></span></h1>
+        <h1 tabindex="-1"><span id="greet" lang="en">Hey, I’m</span> <span class="namebox" id="namebox" title="click me" role="button" tabindex="0" aria-label="Pranav"><span id="name">Pranav</span></span></h1>
         <p class="statement">an economics and math student doing <span class="hl">empirical macro research</span>&nbsp;in&nbsp;R.</p>
         <div class="cta">
           <a class="btn primary" href="Pranavvetrivel-Resume.pdf" download data-cv>download cv <span aria-hidden="true">↓</span></a>
@@ -394,40 +413,40 @@
             <table class="sr-only">
               <caption>My experience</caption>
               <tr><th>role</th><th>org</th><th>start</th><th>status</th></tr>
-              <tr><td>Research Assistant</td><td>EMPCT</td><td>2026-11</td><td>active</td></tr>
-              <tr><td>Junior Fellow</td><td>Global Macro Team</td><td>2026-09</td><td>active</td></tr>
-              <tr><td>Research Intern</td><td>NYU Abu Dhabi</td><td>2025-01</td><td>done</td></tr>
-              <tr><td>Student Intern</td><td>NYU Abu Dhabi</td><td>2023-06</td><td>done</td></tr>
-              <tr><td>Team Lead</td><td>F1 in Schools</td><td>2022-08</td><td>done</td></tr>
+              <tr><td><a href="#research">Research Assistant</a></td><td>EMPCT</td><td>2026-11</td><td>active</td></tr>
+              <tr><td><a href="#research">Junior Fellow</a></td><td>Global Macro Team</td><td>2026-09</td><td>active</td></tr>
+              <tr><td><a href="#research">Research Intern</a></td><td>NYU Abu Dhabi</td><td>2025-01</td><td>done</td></tr>
+              <tr><td><a href="#research">Student Intern</a></td><td>NYU Abu Dhabi</td><td>2023-06</td><td>done</td></tr>
+              <tr><td><a href="#work">Team Lead</a></td><td>F1 in Schools</td><td>2022-08</td><td>done</td></tr>
             </table>
           </div>
         </div>
-        <figcaption><span id="figcap"><b>Figure 1.</b> My experience as a messy CSV, about to be tidied in R.</span><span class="figbtns"><button class="btn sm" type="button" id="mess">mess it up</button><button class="btn sm" type="button" id="clean">clean it ▸</button></span></figcaption>
+        <figcaption><span id="figcap" aria-live="polite"><b>Figure 1.</b> My experience as a messy CSV, about to be tidied in R.</span><span class="figbtns"><button class="btn sm" type="button" id="mess">mess it up</button><button class="btn sm" type="button" id="clean">clean it ▸</button></span></figcaption>
       </figure>
     </div>
 
     <section class="work" id="work">
       <h2>selected work <a class="allwork" href="#work">see all ↗</a></h2>
       <div class="wlist">
-        <a class="witem" href="#research"><span class="t">Researcher migration <i>↗</i></span><span class="y">2026</span><span class="k">Paper · Global Macro Team</span><span class="d">Regression analysis of cross-country researcher migration, with policy recommendations for North Macedonia.</span></a>
-        <a class="witem" href="#research"><span class="t">Interview themes <i>↗</i></span><span class="y">2025</span><span class="k">Research internship · NYU Abu Dhabi</span><span class="d">Transcribed 100,000+ words of interviews and drafted key themes and research pathways.</span></a>
-        <a class="witem" href="#work"><span class="t">F1 in Schools <i>↗</i></span><span class="y">2022–25</span><span class="k">Team lead · Pantherion</span><span class="d">Finance, sustainability, graphics and manufacturing lead. National finalist 2023–25 and holder of the national speed record.</span></a>
-        <a class="witem" href="#work"><span class="t">This website <i>↗</i></span><span class="y">2026</span><span class="k">Code · HTML, CSS, JS</span><span class="d">Hand-built, no framework. The messy CSV above is plain JavaScript animating a real R pipeline.</span></a>
+        <a class="witem" href="#research"><span class="t">Researcher migration <i aria-hidden="true">↗</i></span><span class="y">2026</span><span class="k">Paper · Global Macro Team</span><span class="d">Regression analysis of cross-country researcher migration, with policy recommendations for North Macedonia.</span></a>
+        <a class="witem" href="#research"><span class="t">Interview themes <i aria-hidden="true">↗</i></span><span class="y">2025</span><span class="k">Research internship · NYU Abu Dhabi</span><span class="d">Transcribed 100,000+ words of interviews and drafted key themes and research pathways.</span></a>
+        <a class="witem" href="#work"><span class="t">F1 in Schools <i aria-hidden="true">↗</i></span><span class="y">2022–25</span><span class="k">Team lead · Pantherion</span><span class="d">Finance, sustainability, graphics and manufacturing lead. National finalist 2023–25 and holder of the national speed record.</span></a>
+        <a class="witem" href="#work"><span class="t">This website <i aria-hidden="true">↗</i></span><span class="y">2026</span><span class="k">Code · HTML, CSS, JS</span><span class="d">Hand-built, no framework. The messy CSV above is plain JavaScript animating a real R pipeline.</span></a>
       </div>
     </section>
   </section>
 
   <section class="view" id="v-research">
-      <div class="r-wrap">
+      <div class="r-wrap" id="research">
         <div class="r-hero">
-          <div class="heading"><span>My</span><span class="wordbox"><span class="w">Research</span></span></div>
+          <h1 class="heading" tabindex="-1"><span>My</span><span class="wordbox"><span class="w">Research</span></span></h1>
           <p>Empirical macroeconomics and policy, currently studying <em>why researchers migrate</em> and what governments can do about it.</p>
         </div>
 
         <div class="stats">
-          <div class="stat"><b data-count="3">0</b><span>research roles</span></div>
-          <div class="stat"><b data-count="2">0</b><span>papers &amp; projects</span></div>
-          <div class="stat"><b data-count="100" data-suffix="k+">0</b><span>words of interviews transcribed</span></div>
+          <div class="stat"><b data-count="3">3</b><span>research roles</span></div>
+          <div class="stat"><b data-count="2">2</b><span>papers &amp; projects</span></div>
+          <div class="stat"><b data-count="100" data-suffix="k+">100k+</b><span>words of interviews transcribed</span></div>
         </div>
 
         <div>
@@ -450,16 +469,16 @@
           <h2 class="sec-h">experience</h2>
           <div class="listbox acc">
             <div class="acc-item">
-              <button class="acc-row" aria-expanded="false"><span class="dot o">↘</span><span class="acc-title">Undergraduate Research Assistant</span><span class="acc-sub">EMPCT</span><span class="acc-yr">Nov 2026 –</span><span class="plus">+</span></button>
-              <div class="acc-body"><div><ul><li>Empirical Macroeconomic Policy Center of Texas, UT Economics Department</li><li>Working on LONESTAR (Long-run Economic Statistics of Texas: Archive &amp; Research)</li><li>Parsing large qualitative sources such as newspapers for economic archival research</li></ul></div></div>
+              <button class="acc-row" aria-expanded="false" aria-controls="ab-1"><span class="dot o" aria-hidden="true">↘</span><span class="acc-title">Undergraduate Research Assistant</span><span class="acc-sub">EMPCT</span><span class="acc-yr">Nov 2026 –</span><span class="plus" aria-hidden="true">+</span></button>
+              <div class="acc-body" id="ab-1"><div><ul><li>Empirical Macroeconomic Policy Center of Texas, UT Economics Department</li><li>Working on LONESTAR (Long-run Economic Statistics of Texas: Archive &amp; Research)</li><li>Parsing large qualitative sources such as newspapers for economic archival research</li></ul></div></div>
             </div>
             <div class="acc-item">
-              <button class="acc-row" aria-expanded="false"><span class="dot ">↘</span><span class="acc-title">Junior Fellow</span><span class="acc-sub">Texas Global Macro Team</span><span class="acc-yr">Sep 2026 –</span><span class="plus">+</span></button>
-              <div class="acc-body"><div><ul><li>Inducted as a Junior Fellow after a competitive application process</li><li>Researching brain drain in North Macedonia under Sid Dasari (Senior Fellow), advised by Dr. Ashley Moran</li><li>Using R for multiple linear regressions on cross-country researcher migration data, with robust standard errors, interaction terms and diagnostics</li></ul></div></div>
+              <button class="acc-row" aria-expanded="false" aria-controls="ab-2"><span class="dot ">↘</span><span class="acc-title">Junior Fellow</span><span class="acc-sub">Texas Global Macro Team</span><span class="acc-yr">Sep 2026 –</span><span class="plus" aria-hidden="true">+</span></button>
+              <div class="acc-body" id="ab-2"><div><ul><li>Inducted as a Junior Fellow after a competitive application process</li><li>Researching brain drain in North Macedonia under Sid Dasari (Senior Fellow), advised by Dr. Ashley Moran</li><li>Using R for multiple linear regressions on cross-country researcher migration data, with robust standard errors, interaction terms and diagnostics</li></ul></div></div>
             </div>
             <div class="acc-item">
-              <button class="acc-row" aria-expanded="false"><span class="dot ">↘</span><span class="acc-title">Migration Research Intern</span><span class="acc-sub">NYU Abu Dhabi</span><span class="acc-yr">Jan–Jun 2025</span><span class="plus">+</span></button>
-              <div class="acc-body"><div><ul><li>Transcribed interviews for Professor Anju Paul’s qualitative migration research, over 100,000 words</li><li>Synthesized emerging themes and recommended directions for further research</li></ul></div></div>
+              <button class="acc-row" aria-expanded="false" aria-controls="ab-3"><span class="dot ">↘</span><span class="acc-title">Migration Research Intern</span><span class="acc-sub">NYU Abu Dhabi</span><span class="acc-yr">Jan–Jun 2025</span><span class="plus" aria-hidden="true">+</span></button>
+              <div class="acc-body" id="ab-3"><div><ul><li>Transcribed interviews for Professor Anju Paul’s qualitative migration research, over 100,000 words</li><li>Synthesized emerging themes and recommended directions for further research</li></ul></div></div>
             </div>
           </div>
         </div>
@@ -474,92 +493,92 @@
   <section class="view" id="v-work">
     <div class="r-wrap">
       <div class="r-hero">
-        <div class="heading"><span>My</span><span class="wordbox"><span class="w">Work</span></span></div>
+        <h1 class="heading" tabindex="-1"><span>My</span><span class="wordbox"><span class="w">Work</span></span></h1>
         <p>Papers, <em>leadership</em> and code. Filter them, then open one to see what I actually did.</p>
       </div>
       <div class="filters" id="filters" role="group" aria-label="Filter work">
         <span class="lbl">show</span>
-        <button class="chip on" data-f="all">all <b>7</b></button>
-        <button class="chip" data-f="research">research <b>4</b></button>
-        <button class="chip" data-f="lead">leadership <b>2</b></button>
-        <button class="chip" data-f="code">code <b>1</b></button>
+        <button class="chip on" data-f="all" aria-pressed="true">all <b>7</b></button>
+        <button class="chip" data-f="research" aria-pressed="false">research <b>4</b></button>
+        <button class="chip" data-f="lead" aria-pressed="false">leadership <b>2</b></button>
+        <button class="chip" data-f="code" aria-pressed="false">code <b>1</b></button>
       </div>
       <div class="pgrid" id="pgrid">
-        <article class="pcard" data-k="research" tabindex="0" aria-expanded="false">
+        <article class="pcard" data-k="research">
           <div class="pc-top"><span class="kind">research · in progress</span><span>2026</span></div>
           <div class="pc-body">
-            <h3>Researcher migration <i>+</i></h3>
+            <h3><button type="button" class="pc-toggle" aria-expanded="false" aria-controls="pm-1">Researcher migration <i aria-hidden="true">+</i></button></h3>
             <p>Researching brain drain in North Macedonia: a quantitative model combined with qualitative policy research, ending in specific recommendations.</p>
             <div class="tags"><span class="tag">R</span><span class="tag">RStudio</span><span class="tag">LaTeX</span></div>
-            <div class="pc-more"><div>
+            <div class="pc-more" id="pm-1"><div>
               <ul><li>Junior Fellow, Texas Global Macro Team, after a competitive application</li><li>Under Sid Dasari (Senior Fellow), advised by Dr. Ashley Moran</li><li>Multiple linear regressions on cross-country researcher migration data, with robust standard errors, interaction terms and diagnostics for multicollinearity and influential observations</li></ul>
               <a class="go" href="#research">see it on the research page →</a>
             </div></div>
           </div>
         </article>
-        <article class="pcard" data-k="research" tabindex="0" aria-expanded="false">
+        <article class="pcard" data-k="research">
           <div class="pc-top"><span class="kind">research internship</span><span>2025</span></div>
           <div class="pc-body">
-            <h3>Interview themes <i>+</i></h3>
+            <h3><button type="button" class="pc-toggle" aria-expanded="false" aria-controls="pm-2">Interview themes <i aria-hidden="true">+</i></button></h3>
             <p>Transcribed more than 100,000 words of interviews for qualitative migration research and drafted the key themes.</p>
             <div class="tags"><span class="tag">qualitative</span><span class="tag">transcription</span></div>
-            <div class="pc-more"><div>
+            <div class="pc-more" id="pm-2"><div>
               <ul><li>Migration Research Intern, January to June 2025</li><li>For Professor Anju Paul’s qualitative migration research</li><li>Synthesized emerging themes and recommended directions for further research</li></ul>
               <a class="go" href="#research">see it on the research page →</a>
             </div></div>
           </div>
         </article>
-        <article class="pcard" data-k="research" tabindex="0" aria-expanded="false">
+        <article class="pcard" data-k="research">
           <div class="pc-top"><span class="kind">essay · IB</span><span>2024–25</span></div>
           <div class="pc-body">
-            <h3>UPI and financial inclusion <i>+</i></h3>
+            <h3><button type="button" class="pc-toggle" aria-expanded="false" aria-controls="pm-3">UPI and financial inclusion <i aria-hidden="true">+</i></button></h3>
             <p>Extended Essay in economics: to what extent has India’s unified payments interface reduced market failures to promote financial inclusion in rural India?</p>
             <div class="tags"><span class="tag">economics</span><span class="tag">India</span><span class="tag">policy</span></div>
-            <div class="pc-more"><div>
+            <div class="pc-more" id="pm-3"><div>
               <ul><li>Independent research essay for the International Baccalaureate</li></ul>
             </div></div>
           </div>
         </article>
-        <article class="pcard" data-k="research" tabindex="0" aria-expanded="false">
+        <article class="pcard" data-k="research">
           <div class="pc-top"><span class="kind">essay · award</span><span>2025</span></div>
           <div class="pc-body">
-            <h3>LSE essay competition <i>+</i></h3>
+            <h3><button type="button" class="pc-toggle" aria-expanded="false" aria-controls="pm-4">LSE essay competition <i aria-hidden="true">+</i></button></h3>
             <p>Distinction in the London School of Economics Students’ Union Economics Essay Competition.</p>
             <div class="tags"><span class="tag">economics</span><span class="tag">writing</span></div>
-            <div class="pc-more"><div>
+            <div class="pc-more" id="pm-4"><div>
               <ul><li>An international competition assessing students’ analysis of economic issues through research-based essays</li></ul>
             </div></div>
           </div>
         </article>
-        <article class="pcard" data-k="lead" tabindex="0" aria-expanded="false">
+        <article class="pcard" data-k="lead">
           <div class="pc-top"><span class="kind">leadership</span><span>2022–25</span></div>
           <div class="pc-body">
-            <h3>F1 in Schools <i>+</i></h3>
+            <h3><button type="button" class="pc-toggle" aria-expanded="false" aria-controls="pm-5">F1 in Schools <i aria-hidden="true">+</i></button></h3>
             <p>Finance, sustainability, graphics and manufacturing lead for a student team selected for the F1 in Schools National Finals.</p>
             <div class="tags"><span class="tag">leadership</span><span class="tag">design</span><span class="tag">finance</span></div>
-            <div class="pc-more"><div>
+            <div class="pc-more" id="pm-5"><div>
               <ul><li>Ran multiple teams over three years, placing 2nd, 3rd, 4th, 7th and 8th at the 2023, 2024 and 2025 national finals</li><li>The team holds the national speed record, set at the 2024 National Finals</li><li>Led the visual identity: branding, competition portfolios, the pit display and digital media</li><li>Led sponsorship proposals that secured more than AED 33,000 (about USD 9,000)</li></ul>
             </div></div>
           </div>
         </article>
-        <article class="pcard" data-k="lead" tabindex="0" aria-expanded="false">
+        <article class="pcard" data-k="lead">
           <div class="pc-top"><span class="kind">leadership</span><span>2024–26</span></div>
           <div class="pc-body">
-            <h3>BISAD Economics Journal <i>+</i></h3>
+            <h3><button type="button" class="pc-toggle" aria-expanded="false" aria-controls="pm-6">BISAD Economics Journal <i aria-hidden="true">+</i></button></h3>
             <p>Chief Editor and contributor of a student-led journal on economic policy, theory and current affairs.</p>
             <div class="tags"><span class="tag">editing</span><span class="tag">writing</span><span class="tag">economics</span></div>
-            <div class="pc-more"><div>
+            <div class="pc-more" id="pm-6"><div>
               <ul><li>Managed the editorial team and published 30+ articles over two years</li><li>Grew readership to 6,000+ per issue across the school community</li></ul>
             </div></div>
           </div>
         </article>
-        <article class="pcard" data-k="code" tabindex="0" aria-expanded="false">
+        <article class="pcard" data-k="code">
           <div class="pc-top"><span class="kind">code</span><span>2026</span></div>
           <div class="pc-body">
-            <h3>This website <i>+</i></h3>
+            <h3><button type="button" class="pc-toggle" aria-expanded="false" aria-controls="pm-7">This website <i aria-hidden="true">+</i></button></h3>
             <p>Hand-built, no framework. The messy CSV on the home page is plain JavaScript animating a real R pipeline.</p>
             <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
-            <div class="pc-more"><div>
+            <div class="pc-more" id="pm-7"><div>
               <ul><li>One file, no libraries</li><li>Throwable tags, a self-cleaning spreadsheet and a greeting in eight languages</li></ul>
               <a class="go" href="#home">back to the home page →</a>
             </div></div>
@@ -572,23 +591,24 @@
   <section class="view" id="v-contact">
     <div class="r-wrap">
       <div class="r-hero">
-        <div class="heading"><span>Let’s</span><span class="wordbox"><span class="w">Talk</span></span></div>
+        <h1 class="heading" tabindex="-1"><span>Let’s</span><span class="wordbox"><span class="w">Talk</span></span></h1>
         <p>I’m looking for <em>research assistant roles</em> in UT Austin economics and coding internships. Email is the fastest way.</p>
       </div>
       <div class="c-grid">
         <div class="c-panel">
           <h2>reach me</h2>
-          <button class="crow" id="c-email" type="button"><small>email</small><span class="v" id="c-email-v">pranavvetrivel@utexas.edu</span><em>⧉</em></button>
-          <a class="crow" href="https://www.linkedin.com/in/pranavvetrivel/" target="_blank" rel="noopener"><small>linkedin</small><span class="v">pranavvetrivel</span><em>↗</em></a>
-          <a class="crow" href="Pranavvetrivel-Resume.pdf" download id="c-cv"><small>cv</small><span class="v">download my cv</span><em>↓</em></a>
-          <a class="crow" href="https://github.com/pr8music" target="_blank" rel="noopener" id="c-gh"><small>github</small><span class="v">pr8music</span><em>↗</em></a>
+          <noscript><a class="crow" href="mailto:pranavvetrivel@utexas.edu"><small>email</small><span class="v">pranavvetrivel@utexas.edu</span><em aria-hidden="true">↗</em></a></noscript>
+          <button class="crow" id="c-email" type="button"><small>email</small><span class="v" id="c-email-v">pranavvetrivel@utexas.edu</span><em aria-hidden="true">⧉</em></button>
+          <a class="crow" href="https://www.linkedin.com/in/pranavvetrivel/" target="_blank" rel="noopener"><small>linkedin</small><span class="v">pranavvetrivel</span><em aria-hidden="true">↗</em></a>
+          <a class="crow" href="Pranavvetrivel-Resume.pdf" download id="c-cv"><small>cv</small><span class="v">download my cv</span><em aria-hidden="true">↓</em></a>
+          <a class="crow" href="https://github.com/pr8music" target="_blank" rel="noopener" id="c-gh"><small>github</small><span class="v">pr8music</span><em aria-hidden="true">↗</em></a>
         </div>
         <div class="c-panel">
           <h2>write to me</h2>
           <div class="reasons" id="reasons" role="group" aria-label="Reason for writing">
-            <button class="chip on" data-s="RA opportunity">RA opportunity</button>
-            <button class="chip" data-s="Internship">internship</button>
-            <button class="chip" data-s="Just saying hi">just saying hi</button>
+            <button class="chip on" data-s="RA opportunity" aria-pressed="true">RA opportunity</button>
+            <button class="chip" data-s="Internship" aria-pressed="false">internship</button>
+            <button class="chip" data-s="Just saying hi" aria-pressed="false">just saying hi</button>
           </div>
           <form class="c-form" id="c-form">
             <textarea id="c-msg" placeholder="Hi Pranav, …" aria-label="Your message"></textarea>
@@ -601,7 +621,7 @@
         </div>
       </div>
       <div class="c-status">
-        <div><small>status</small><b><span class="live-dot"></span>open to RA roles</b></div>
+        <div><small>status</small><b><span class="live-dot" aria-hidden="true"></span>open to RA roles</b></div>
         <div><small>studying</small><b>UT Austin · 2030</b></div>
         <div><small>local time</small><b class="clk">austin, tx</b></div>
       </div>
@@ -612,20 +632,19 @@
 <footer id="contact">
   <span class="where clk" id="clock">austin, tx</span>
   <ul>
-    <li><button id="copy-email">email</button></li>
+    <li><button id="copy-email">email</button><noscript><a href="mailto:pranavvetrivel@utexas.edu">email</a></noscript></li>
     <li><a href="Pranavvetrivel-Resume.pdf" download id="cv">cv</a></li>
     <li><a href="https://www.linkedin.com/in/pranavvetrivel/" target="_blank" rel="noopener">linkedin</a></li>
     <li><a href="https://github.com/pr8music" target="_blank" rel="noopener" id="gh">github</a></li>
   </ul>
 </footer>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
 <script>
 (() => {
   const EMAIL = 'pranavvetrivel@utexas.edu';
-  const CV = 'Pranavvetrivel-Resume.pdf', GH = 'https://github.com/pr8music';
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   let toastT;
@@ -636,15 +655,20 @@
   tick(); setInterval(tick, 1000);
 
   /* views + scrolling */
-  function scrollToId(id) { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); }
   const VIEWS = ['research', 'work', 'contact'];
+  const TITLES = { home: 'Pranav · Economics & Math, UT Austin', research: 'Research · Pranav', work: 'Work · Pranav', contact: 'Contact · Pranav' };
+  let routed = false;
   function route() {
     const v = location.hash.slice(1), cur = VIEWS.includes(v) ? v : 'home';
     $('#v-home').classList.toggle('on', cur === 'home');
     VIEWS.forEach(n => $('#v-' + n).classList.toggle('on', cur === n));
     document.body.dataset.v = cur;
-    $$('.links a').forEach(a => a.classList.toggle('active', a.dataset.v === cur));
+    $$('.links a').forEach(a => { const on = a.dataset.v === cur; a.classList.toggle('active', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    const logo = $('.logo'); if (cur === 'home') logo.setAttribute('aria-current', 'page'); else logo.removeAttribute('aria-current');
+    document.title = TITLES[cur];
     scrollTo(0, 0);
+    if (routed) { const h = $('#v-' + cur + ' h1'); if (h) h.focus({ preventScroll: true }); }
+    routed = true;
     if (cur === 'research') countUp();
     if (cur === 'work') animateCards();
   }
@@ -652,21 +676,27 @@
 
   /* greeting + scramble (name scrambles, greeting cycles through languages) */
   const greetings = ['Hey, I’m', 'Hi, I’m', 'Howdy, I’m', 'Hola, soy', 'Yo, I’m', 'नमस्ते, मैं', 'Hallo, ich bin', 'வணக்கம், நான்'];
+  const GL = ['en', 'en', 'en', 'es', 'en', 'hi', 'de', 'ta'];
   let gi = 0, busy = false;
   const h1 = $('#greet').parentElement, intro = h1.parentElement;
   /* size the heading once so the longest greeting still fits on one line */
-  function fitHero() {
-    h1.style.fontSize = '100px';
-    const keep = $('#greet').textContent; let widest = 0;
-    greetings.forEach(g => { $('#greet').textContent = g; widest = Math.max(widest, h1.scrollWidth); });
-    $('#greet').textContent = keep;
-    h1.style.fontSize = Math.max(24, Math.min(64, 100 * intro.clientWidth / widest * 0.97)).toFixed(1) + 'px';
+  let widest100 = 0;  /* width of the widest greeting at 100px; scales linearly, so it is measured once */
+  function measureHero() {
+    const g = $('#greet'), keep = g.textContent;
+    h1.style.fontSize = '100px'; h1.style.width = 'max-content';
+    greetings.forEach(t => { g.textContent = t; widest100 = Math.max(widest100, h1.scrollWidth); });
+    g.textContent = keep; h1.style.width = '';
   }
-  fitHero(); addEventListener('resize', fitHero);
-  document.fonts && document.fonts.ready.then(fitHero);
+  function fitHero() {
+    if (!widest100) measureHero();
+    h1.style.fontSize = Math.max(24, Math.min(64, 100 * intro.clientWidth / widest100 * 0.97)).toFixed(1) + 'px';
+  }
+  let fitRaf; const fitSoon = () => { cancelAnimationFrame(fitRaf); fitRaf = requestAnimationFrame(fitHero); };
+  fitHero(); addEventListener('resize', fitSoon);
+  document.fonts && document.fonts.ready.then(() => { widest100 = 0; fitHero(); });
   $('#namebox').addEventListener('click', () => {
     if (busy) return;
-    gi = (gi + 1) % greetings.length; $('#greet').textContent = greetings[gi];
+    gi = (gi + 1) % greetings.length; $('#greet').textContent = greetings[gi]; $('#greet').lang = GL[gi];
     if (reduce) return;
     busy = true; let f = 0; const target = 'Pranav', ch = 'ABCDEFGHJKLMNPRSTVWXYZ$%#';
     const nb = $('#namebox'); nb.style.minWidth = nb.offsetWidth + 'px';
@@ -675,6 +705,8 @@
       if (f >= 12) { clearInterval(id); $('#name').textContent = target; nb.style.minWidth = ''; busy = false; }
     }, 40);
   });
+
+  $('#namebox').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.currentTarget.click(); } });
 
   /* ---------- throwable tags (bring-back from v1) ---------- */
   const tagBodies = new Map();
@@ -940,10 +972,11 @@
   });
 
   /* research view: accordions + count-up */
+  const setAcc = (it, o) => { it.classList.toggle('open', o); $('.acc-row', it).setAttribute('aria-expanded', String(o)); $('.acc-body', it).inert = !o; };
   $$('.acc-row').forEach(b => b.addEventListener('click', () => {
     const it = b.closest('.acc-item'), open = !it.classList.contains('open');
-    it.parentElement.querySelectorAll('.acc-item.open').forEach(o => o.classList.remove('open'));
-    if (open) it.classList.add('open');
+    it.parentElement.querySelectorAll('.acc-item.open').forEach(o => setAcc(o, false));
+    setAcc(it, open);
   }));
   function countUp() {
     $$('[data-count]').forEach(el => {
@@ -959,21 +992,21 @@
     if (reduce || !cards[0].animate) return;
     cards.filter(c => !c.classList.contains('hide')).forEach((c, i) => c.animate([{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }], { duration: 380, delay: i * 70, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards' }));
   }
+  const setCard = (c, o) => { c.classList.toggle('open', o); $('.pc-toggle', c).setAttribute('aria-expanded', String(o)); $('.pc-more', c).inert = !o; };
   $$('#filters .chip').forEach(b => b.addEventListener('click', () => {
-    $$('#filters .chip').forEach(x => x.classList.toggle('on', x === b));
+    $$('#filters .chip').forEach(x => { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', String(x === b)); });
     const f = b.dataset.f;
-    cards.forEach(c => { c.classList.toggle('hide', f !== 'all' && c.dataset.k !== f); c.classList.remove('open'); c.setAttribute('aria-expanded', 'false'); });
+    cards.forEach(c => { c.classList.toggle('hide', f !== 'all' && c.dataset.k !== f); setCard(c, false); });
     animateCards();
   }));
   cards.forEach(c => {
-    const toggle = () => { const o = !c.classList.contains('open'); cards.forEach(x => { x.classList.remove('open'); x.setAttribute('aria-expanded', 'false'); }); if (o) { c.classList.add('open'); c.setAttribute('aria-expanded', 'true'); } };
-    c.addEventListener('click', e => { if (e.target.closest('a')) return; toggle(); });
-    c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    /* the title button handles keyboard; clicking anywhere on the card still toggles it for mouse users */
+    c.addEventListener('click', e => { if (e.target.closest('a')) return; const o = !c.classList.contains('open'); cards.forEach(x => setCard(x, false)); if (o) setCard(c, true); });
   });
 
   /* contact page */
   let reason = 'RA opportunity';
-  $$('#reasons .chip').forEach(b => b.addEventListener('click', () => { reason = b.dataset.s; $$('#reasons .chip').forEach(x => x.classList.toggle('on', x === b)); }));
+  $$('#reasons .chip').forEach(b => b.addEventListener('click', () => { reason = b.dataset.s; $$('#reasons .chip').forEach(x => { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', String(x === b)); }); }));
   $('#c-email').addEventListener('click', () => $('#copy-email').click());
     $('#c-form').addEventListener('submit', e => {
     e.preventDefault();
@@ -988,9 +1021,13 @@
   /* keyboard */
   addEventListener('keydown', e => {
     if (e.metaKey || e.ctrlKey || e.altKey || /^(INPUT|TEXTAREA)$/.test((e.target || {}).tagName)) return;
+    /* single-key shortcuts only fire when nothing interactive has focus (WCAG 2.1.4) */
+    const ae = document.activeElement; if (ae && ae !== document.body && ae.getAttribute('tabindex') !== '-1') return;
     const k = e.key.toLowerCase();
     if (k === 'r') location.hash = 'research'; else if (k === 'h') location.hash = 'home'; else if (k === 'w') location.hash = 'work'; else if (k === 'c') location.hash = 'contact'; else if (k === 't') tidyTags();
   });
+
+  $$('.acc-body, .pc-more').forEach(el => { el.inert = true; });
 
   route();
 })();
