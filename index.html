@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pranav · Economics & Math, UT Austin</title>
+<style>
+  :root {
+    --navy: #325174; --orange: #bf5700; --ink: #000; --paper: #fff; --muted: #666;
+    --line: 1px solid var(--ink);
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "Helvetica Neue", Arial, sans-serif;
+    --gap: clamp(14px, 1.4vw, 24px);
+    --pad: clamp(18px, 4vw, 64px);
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { font-family: var(--font); color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+  a { color: inherit; }
+  .view { display: none; }
+  .view.on { display: block; }
+
+  /* ---------- nav ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,.92); backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px; padding: 0 var(--pad); border-bottom: var(--line);
+  }
+  .logo { display: grid; place-items: center; width: 44px; height: 40px; }
+  .logo svg { transition: transform .45s cubic-bezier(.22,1,.36,1); }
+  .logo:hover svg { transform: scale(1.12); }
+    .links { display: flex; gap: 32px; }
+  .links a { text-decoration: none; font-size: 16px; position: relative; padding: 4px 0; }
+  .links a::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 3px; background: var(--orange);
+    transform: scaleX(0); transform-origin: left; transition: transform .2s ease;
+  }
+  .links a:hover::after, .links a.active::after { transform: scaleX(1); }
+
+  /* ---------- hero: intro column + figure panel ---------- */
+  .hero {
+    display: grid; grid-template-columns: 1fr 1.25fr; gap: clamp(24px, 3.4vw, 56px);
+    min-height: calc(100svh - 56px); padding: clamp(24px, 4.5vh, 48px) var(--pad) clamp(20px, 3.5vh, 36px);
+  }
+  .intro { display: flex; flex-direction: column; gap: clamp(18px, 2.6vh, 28px); min-width: 0; container-type: inline-size; }
+  .intro h1 {
+    margin: 0; font-weight: 400; font-size: clamp(24px, 8cqi, 64px); line-height: 1.05; letter-spacing: -.01em;
+    display: flex; flex-wrap: nowrap; align-items: center; gap: .28em; white-space: nowrap;
+  }
+  .namebox {
+    position: relative; flex: none; border: var(--line); padding: .06em .62em .1em .2em; font-weight: 700; cursor: pointer; user-select: none; white-space: nowrap;
+  }
+  .namebox::after {
+    content: ""; position: absolute; top: -1px; right: -1px; width: .9em; height: .24em; background: var(--orange);
+    transition: width .3s cubic-bezier(.22,1,.36,1);
+  }
+  .namebox:hover::after { width: 1.5em; }
+  .statement { margin: 0; font-size: clamp(20px, 2.15vw, 32px); line-height: 1.3; max-width: 30ch; text-wrap: balance; }
+  .statement .hl { background: linear-gradient(transparent 62%, rgba(191,87,0,.25) 62%); }
+  .now { margin: auto 0 0; border-top: var(--line); }
+  .now div { display: grid; grid-template-columns: 88px 1fr; gap: 12px; align-items: baseline; padding: 12px 0; border-bottom: var(--line); }
+  .now dt { color: var(--orange); font-size: 14px; }
+  .now dd { margin: 0; font-size: 17px; }
+  .latest { text-decoration: none; }
+  .latest span { display: inline-block; color: var(--orange); transition: transform .2s; }
+  .latest:hover { color: var(--navy); }
+  .latest:hover span { transform: translate(3px, -3px); }
+
+  .fig { margin: 0; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .fig-box { position: relative; flex: 1; min-height: 440px; border: var(--line); background: var(--paper); }
+  .fig-corner {
+    position: absolute; top: -1px; left: -1px; width: 51px; height: 44px; border: var(--line);
+    display: grid; place-items: center; background: var(--paper); z-index: 2;
+  }
+  .fig-corner svg { transition: transform .45s cubic-bezier(.22,1,.36,1); }
+  .fig-box:hover .fig-corner svg { transform: scale(1.12); }
+  .fig-title { position: absolute; top: 4px; right: 18px; font-size: 26px; font-weight: 700; }
+  .fig figcaption { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-size: 14px; color: #333; }
+  .fig figcaption b { font-weight: 600; }
+
+  /* ---------- hero extras: buttons + throwable toolkit ---------- */
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px; height: 42px; padding: 0 16px; border: var(--line);
+    background: var(--paper); font-size: 15px; text-decoration: none; transition: box-shadow .15s, transform .15s;
+  }
+  .btn:hover { box-shadow: 4px 4px 0 var(--ink); transform: translate(-2px, -2px); }
+  .btn.primary { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .btn.sm { height: 32px; padding: 0 12px; font-size: 13px; }
+  .toolkit { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+  .intro .now { margin-top: auto; }
+  .tk-head { display: flex; justify-content: space-between; align-items: baseline; font-size: 14px; }
+  .tk-head span { color: var(--orange); }
+  .tk-head button { font-size: 13px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+  .toolkit .tag {
+    height: 30px; padding: 0 12px; font-size: 15px; cursor: grab; touch-action: none; user-select: none;
+    position: relative; z-index: 2; transition: background .15s;
+  }
+  .toolkit .tag:hover { background: var(--orange); }
+  .toolkit .tag.orange:hover { background: var(--navy); }
+  .toolkit .tag.dragging { cursor: grabbing; z-index: 60; box-shadow: 4px 4px 0 var(--ink); }
+
+  /* ---------- fig. 1: a messy CSV that tidies itself ---------- */
+  .fig-box.tidy { display: flex; flex-direction: column; }
+  .fig-inner { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 60px 22px 18px; min-height: 0; }
+  .code { margin: 0; font: 12.5px/19px var(--mono); background: #f7f6f2; border: var(--line); padding: 8px 0; overflow-x: auto; flex: none; }
+  .code .ln { display: block; padding-right: 14px; white-space: pre; border-left: 3px solid transparent; transition: background .2s; }
+  .code .ln i { display: inline-block; width: 26px; margin-right: 12px; text-align: right; color: #aaa; font-style: normal; user-select: none; }
+  .code .ln.on { background: rgba(191,87,0,.10); border-left-color: var(--orange); }
+  .code .ln.done i { color: var(--navy); }
+  .code .fn { color: var(--navy); }
+  .code .st { color: var(--orange); }
+  .code .op { color: #999; }
+  .code .note { color: var(--orange); font-style: italic; }
+  .tib { display: flex; justify-content: space-between; font: 12.5px var(--mono); color: var(--muted); }
+  .stage { position: relative; flex: 1; min-height: 270px; background: var(--paper); border-top: 1px solid #b9b9b4; border-left: 1px solid #b9b9b4; outline: 1px solid var(--ink); overflow: hidden; }
+  .cell, .gut {
+    position: absolute; left: 0; top: 0; display: flex; align-items: center; box-sizing: border-box; padding: 0 9px; font: 13px/1.2 var(--mono);
+    border-right: 1px solid #cfcfca; border-bottom: 1px solid #cfcfca; background: var(--paper); overflow: hidden; white-space: nowrap;
+    will-change: transform;
+  }
+  .cell { transition: transform .26s cubic-bezier(.2,.8,.2,1), opacity .12s steps(1, end), background .12s, color .12s; }
+  .gut { justify-content: center; padding: 0; background: #efefec; color: #666; font-size: 12px; border-right-color: #b9b9b4; border-bottom-color: #b9b9b4; transition: transform .26s cubic-bezier(.2,.8,.2,1), background .12s, color .12s, opacity .12s steps(1, end); }
+  .gut.off { opacity: 0; }
+  .gut.act { background: #dfe6ee; color: var(--navy); font-weight: 700; }
+  .gut.corner::after { content: ""; position: absolute; right: 3px; bottom: 3px; border: 5px solid transparent; border-right-color: #b3b3ae; border-bottom-color: #b3b3ae; }
+  .sel {
+    position: absolute; left: 0; top: 0; pointer-events: none; z-index: 5; box-sizing: border-box; border: 2px solid var(--navy); background: rgba(50,81,116,.07);
+    opacity: 0; transition: transform .24s cubic-bezier(.2,.8,.2,1), width .24s cubic-bezier(.2,.8,.2,1), height .24s cubic-bezier(.2,.8,.2,1), opacity .12s;
+  }
+  .sel.on { opacity: 1; }
+  .sel::after { content: ""; position: absolute; right: -5px; bottom: -5px; width: 7px; height: 7px; background: var(--navy); border: 1px solid #fff; box-sizing: content-box; }
+  .cell.h { flex-direction: column; align-items: flex-start; justify-content: center; gap: 1px; font-weight: 700; background: #f7f7f4; border-bottom: 1px solid #8d8d88; }
+  .cell.h .ty { font-weight: 400; font-size: 11px; color: var(--muted); }
+  .cell .ws { color: var(--orange); }
+  .cell.na { color: var(--orange); font-style: italic; }
+  .cell.hit { background: rgba(191,87,0,.14); }
+  .cell.gone { opacity: 0; pointer-events: none; }
+  .stage.chaos .cell, .stage.chaos .gut { border: 1px solid var(--ink); box-shadow: 3px 3px 0 rgba(0,0,0,.14); }
+  .stage.chaos .gut { transition-delay: 0ms; }
+  .stage.live .cell:not(.h) { cursor: pointer; }
+  .cell.hov { background: rgba(50,81,116,.09); color: var(--navy); }
+  .tib-info { position: absolute; left: 0; top: 0; font: 12px var(--mono); color: var(--muted); opacity: 0; transition: opacity .4s; pointer-events: none; }
+  .stage.live .tib-info { opacity: 1; }
+  .figbtns { display: flex; gap: 8px; flex: none; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ---------- selected work ---------- */
+  .work { padding: clamp(28px, 6vh, 64px) var(--pad); border-top: var(--line); }
+  .work h2 { margin: 0 0 22px; font-size: clamp(28px, 3vw, 40px); font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .work h2 .allwork { margin-left: auto; font-size: 15px; font-weight: 400; color: var(--navy); text-underline-offset: 3px; }
+  .work h2 .allwork:hover { color: var(--orange); }
+  .work h2::before { content: ""; width: 14px; height: 14px; background: var(--orange); }
+  .wlist { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--gap); }
+  .witem {
+    display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 4px 16px;
+    padding: 18px 0; border-bottom: var(--line); text-decoration: none; color: inherit;
+  }
+  .witem .t { font-size: clamp(20px, 1.8vw, 26px); transition: color .2s; }
+  .witem .t i { font-style: normal; color: var(--orange); opacity: 0; display: inline-block; transform: translateX(-6px); transition: .2s; }
+  .witem .k { font-size: 15px; color: var(--muted); }
+  .witem .y { font-size: 15px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .witem .d { grid-column: 1 / -1; font-size: 15px; color: #333; max-height: 0; overflow: hidden; transition: max-height .3s ease; line-height: 1.45; }
+  .witem:hover .t { color: var(--navy); }
+  .witem:hover .t i { opacity: 1; transform: none; }
+  .witem:hover .d, .witem:focus-visible .d { max-height: 80px; }
+
+  /* ---------- footer ---------- */
+  footer {
+    border-top: var(--line); padding: 22px var(--pad); display: flex; flex-wrap: wrap; gap: 14px 40px;
+    align-items: center; justify-content: space-between; font-size: 15px;
+  }
+  footer .where { color: var(--muted); font-variant-numeric: tabular-nums; }
+  footer ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 24px; flex-wrap: wrap; }
+  footer a, footer button { text-decoration: none; position: relative; }
+  footer a:hover, footer button:hover { color: var(--orange); }
+
+  /* ---------- shared bits used by the research view ---------- */
+  .heading { display: flex; align-items: center; gap: 14px; height: 44px; font-size: 31px; }
+  .wordbox {
+    position: relative; border: var(--line); height: 44px; padding: 0 56px 0 16px;
+    display: inline-flex; align-items: center; font-weight: 700; background: var(--paper);
+  }
+  .wordbox::after { content: ""; position: absolute; top: -1px; right: -1px; width: 49px; height: 13px; background: var(--orange); }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    background: var(--navy); color: #fff; font-size: 15px; height: 26px; padding: 0 10px;
+    display: inline-flex; align-items: center; border-radius: 2px; white-space: nowrap;
+  }
+  .tag.orange { background: var(--orange); }
+  #v-research { padding: 32px var(--pad) 48px; }
+
+
+  /* ---------- work + contact pages ---------- */
+  #v-work, #v-contact { padding: 32px var(--pad) 48px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .filters .lbl { color: var(--orange); font-size: 14px; margin-right: 4px; }
+  .chip { height: 38px; padding: 0 16px; border: var(--line); background: var(--paper); font-size: 16px; display: inline-flex; align-items: center; gap: 8px; transition: box-shadow .15s, transform .15s, background .15s, color .15s; }
+  .chip b { font-weight: 400; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .chip:hover { box-shadow: 3px 3px 0 var(--ink); transform: translate(-2px, -2px); }
+  .chip.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .chip.on b { color: rgba(255,255,255,.7); }
+  .pgrid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); align-items: start; }
+  .pcard { position: relative; border: var(--line); background: var(--paper); cursor: pointer; transition: box-shadow .2s, border-color .2s; outline: none; }
+  .pcard::after { content: ""; position: absolute; top: -1px; right: -1px; width: 44px; height: 11px; background: var(--navy); transition: width .3s cubic-bezier(.22,1,.36,1), background .2s; }
+  .pcard[data-k="lead"]::after { background: #8a8a85; }
+  .pcard[data-k="research"]::after { background: var(--orange); }
+  .pcard:hover, .pcard:focus-visible, .pcard.open { border-color: var(--navy); box-shadow: 7px 7px 0 var(--navy); }
+  .pcard:hover::after, .pcard.open::after { width: 90px; }
+  .pc-top { display: flex; justify-content: space-between; align-items: baseline; padding: 20px 24px 0; font-size: 14px; color: var(--muted); }
+  .pc-top .kind { color: var(--navy); }
+  .pcard[data-k="research"] .pc-top .kind { color: var(--orange); }
+  .pc-body { padding: 10px 24px 20px; display: flex; flex-direction: column; gap: 12px; }
+  .pc-body h3 { margin: 0; font-size: clamp(24px, 2.2vw, 32px); font-weight: 700; line-height: 1.1; display: flex; align-items: center; gap: 10px; }
+  .pc-body h3 i { font-style: normal; color: var(--orange); font-size: .8em; transition: transform .3s cubic-bezier(.22,1,.36,1); }
+  .pcard.open h3 i { transform: rotate(45deg); }
+  .pc-body p { margin: 0; font-size: 16px; line-height: 1.45; color: #222; max-width: 52ch; }
+  .pc-more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s cubic-bezier(.22,1,.36,1); }
+  .pcard.open .pc-more { grid-template-rows: 1fr; }
+  .pc-more > div { overflow: hidden; }
+  .pc-more ul { margin: 0; padding: 14px 0 4px 18px; border-top: 1px dashed #999; font-size: 15px; line-height: 1.5; color: #222; }
+  .pc-more .go { display: inline-block; margin: 8px 0 4px; font-size: 15px; color: var(--navy); text-underline-offset: 3px; }
+  .pc-more .go:hover { color: var(--orange); }
+  .pcard.hide { display: none; }
+  .empty-note { font-size: 15px; color: var(--muted); }
+
+  .c-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: var(--gap); align-items: start; }
+  .c-panel { border: var(--line); background: var(--paper); position: relative; }
+  .c-panel h2 { margin: 0; padding: 18px 24px; border-bottom: var(--line); font-size: 21px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  .c-panel h2::before { content: ""; width: 12px; height: 12px; background: var(--orange); }
+  .crow { display: grid; grid-template-columns: 90px 1fr auto; gap: 14px; align-items: center; width: 100%; padding: 22px 24px; border-bottom: var(--line); text-align: left; text-decoration: none; transition: background .15s; }
+  .crow:last-child { border-bottom: 0; }
+  .crow small { font-size: 14px; color: var(--orange); }
+  .crow span.v { font-size: clamp(20px, 1.8vw, 26px); }
+  .crow em { font-style: normal; font-size: 22px; color: var(--orange); transition: transform .25s cubic-bezier(.22,1,.36,1); }
+  .crow:hover { background: rgba(50,81,116,.06); }
+  .crow:hover span.v { color: var(--navy); }
+  .crow:hover em { transform: translate(4px, -4px); }
+  .reasons { display: flex; flex-wrap: wrap; gap: 8px; padding: 20px 24px 0; }
+  .c-form { display: flex; flex-direction: column; gap: 12px; padding: 18px 24px 24px; }
+  .c-form textarea { font: inherit; font-size: 16px; line-height: 1.45; min-height: 150px; resize: vertical; border: var(--line); padding: 12px 14px; background: var(--paper); outline: none; }
+  .c-form textarea:focus { border-color: var(--navy); box-shadow: 4px 4px 0 var(--navy); }
+  .c-form .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .c-form .hint { font-size: 13px; color: var(--muted); }
+  .c-status { display: grid; grid-template-columns: repeat(3, 1fr); border: var(--line); background: var(--paper); }
+  .c-status > div { padding: 20px 24px; }
+  .c-status > div + div { border-left: var(--line); }
+  .c-status small { display: block; font-size: 14px; color: var(--orange); margin-bottom: 6px; }
+  .c-status b { font-weight: 400; font-size: clamp(20px, 2vw, 28px); font-variant-numeric: tabular-nums; }
+  .live-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--orange); margin-right: 10px; animation: pulse 1.8s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .25; } }
+  body[data-v="contact"] footer { display: none; }
+
+  /* ---------- accordion rows (projects + research lists) ---------- */
+  .acc { display: flex; flex-direction: column; }
+  .acc-item { border-bottom: var(--line); }
+  .acc-item:first-child { border-top: var(--line); }
+  .acc-row {
+    width: 100%; display: flex; align-items: center; gap: 14px; padding: 16px 2px; text-align: left;
+  }
+  .dot {
+    width: 26px; height: 26px; border-radius: 50%; flex: none; display: grid; place-items: center;
+    background: var(--navy); color: #fff; font-size: 14px; transition: transform .3s cubic-bezier(.3,1.6,.5,1);
+  }
+  .dot.o { background: var(--orange); }
+  .dot.ghost { background: none; border: 1px dashed #999; color: #999; }
+  .acc-row:hover .dot { transform: rotate(-45deg) scale(1.1); }
+  .acc-title { font-size: 19px; }
+  .acc-sub { font-size: 14px; color: var(--muted); margin-left: 6px; }
+  .acc-yr { margin-left: auto; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .plus { font-size: 22px; line-height: 1; width: 20px; text-align: center; transition: transform .3s ease; }
+  .acc-item.open .plus { transform: rotate(45deg); color: var(--orange); }
+  .acc-row:hover .acc-title { color: var(--navy); }
+  .acc-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease; }
+  .acc-item.open .acc-body { grid-template-rows: 1fr; }
+  .acc-body > div { overflow: hidden; }
+  .acc-body p, .acc-body ul { margin: 0 0 16px 40px; font-size: 15px; line-height: 1.5; color: #222; max-width: 62ch; }
+  .acc-body ul { padding-left: 18px; }
+  .acc-body a { color: var(--navy); }
+  .acc-item.todo .acc-title { color: var(--muted); }
+  #t-projects { cursor: default; }
+  #t-projects .acc { margin-top: 4px; }
+  #t-projects .acc-sub { display: none; }
+  #t-projects .acc-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+
+  /* ---------- research view (editorial, roomy) ---------- */
+  .r-wrap {
+    grid-column: 1 / -1; width: 100%; max-width: 1180px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: clamp(40px, 6vh, 72px); padding: 12px 0 32px;
+  }
+  .r-hero { display: grid; grid-template-columns: auto 1fr; gap: 48px; align-items: center; }
+  .r-hero p { margin: 0; font-size: clamp(21px, 1.9vw, 28px); line-height: 1.3; max-width: 36ch; }
+  .r-hero p em { font-style: normal; color: var(--orange); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); border: var(--line); background: var(--paper); }
+  .stat { padding: 22px 26px; }
+  .stat + .stat { border-left: var(--line); }
+  .stat b { display: block; font-size: clamp(48px, 5vw, 72px); font-weight: 400; color: var(--orange); line-height: 1; font-variant-numeric: tabular-nums; }
+  .stat span { display: block; margin-top: 8px; color: var(--navy); font-size: 17px; }
+  .sec-h { display: flex; align-items: center; gap: 12px; font-size: 31px; font-weight: 700; margin: 0 0 18px; }
+  .sec-h::before { content: ""; width: 14px; height: 14px; background: var(--orange); }
+  .featured { display: grid; grid-template-columns: 240px 1fr; border: var(--line); background: var(--paper); transition: box-shadow .2s, border-color .2s; }
+  .featured:hover { border-color: var(--navy); box-shadow: 8px 8px 0 var(--navy); }
+  .featured .side { border-right: var(--line); padding: 26px; display: flex; flex-direction: column; gap: 10px; }
+  .featured .yr { font-size: 44px; line-height: 1; }
+  .featured .main { padding: 26px 32px 30px; display: flex; flex-direction: column; gap: 14px; }
+  .featured h3 { margin: 0; font-size: clamp(30px, 3vw, 44px); font-weight: 700; line-height: 1.05; }
+  .featured p { margin: 0; font-size: 17px; line-height: 1.5; max-width: 60ch; }
+  .featured .who { font-size: 15px; color: var(--muted); }
+  .listbox { background: var(--paper); border: var(--line); padding: 0 24px; }
+  .listbox .acc-item:first-child { border-top: 0; }
+  .listbox .acc-item:last-child { border-bottom: 0; }
+
+  
+
+  /* ---------- toast + help ---------- */
+  .toast {
+    position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); opacity: 0;
+    background: var(--ink); color: #fff; padding: 10px 16px; font-size: 14px; border-radius: 2px;
+    transition: .25s; z-index: 100; pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; min-height: 0; }
+    .now { margin-top: 0; }
+    .fig-box { flex: none; height: auto; min-height: 0; }
+    .stage { flex: none; height: 360px; }
+  }
+  @media (max-width: 760px) {
+    .links { gap: 16px; } .links a { font-size: 14px; }
+    .wlist { grid-template-columns: 1fr; }
+    .fig-title { font-size: 22px; }
+    .fig-inner { padding: 56px 12px 14px; }
+    .code, .tib { font-size: 11px; line-height: 17px; }
+    .cell { font-size: 11px; padding: 0 4px; }
+    .fig figcaption { flex-direction: column; align-items: flex-start; }
+    .r-hero, .featured { grid-template-columns: 1fr; }
+    .featured .side { border-right: 0; border-bottom: var(--line); flex-direction: row; align-items: center; }
+    .featured .yr { font-size: 28px; }
+    .stat { padding: 16px; } .stat span { font-size: 14px; }
+    .acc-sub { display: none; }
+    .pgrid, .c-grid { grid-template-columns: 1fr; }
+    .c-status { grid-template-columns: 1fr; }
+    .c-status > div + div { border-left: 0; border-top: var(--line); }
+    .crow { grid-template-columns: 70px 1fr auto; padding: 18px 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="#home" aria-label="Home"><svg width="36" height="36" viewBox="125 127 354 352" aria-hidden="true"><path fill="#000" stroke="#000" stroke-width="16" stroke-linejoin="miter" d="M429.042 471H410.77C418.44 432.883 425.207 400.119 431.072 372.706C436.938 345.294 441.562 321.797 444.946 302.217C448.329 282.375 450.021 265.275 450.021 250.916C450.021 223.503 444.72 202.618 434.118 188.259C423.741 173.639 409.53 166.329 391.483 166.329C380.204 166.329 369.264 169.331 358.662 175.336C348.059 181.079 339.375 189.825 332.607 201.573C325.84 213.322 322.456 227.811 322.456 245.042C322.456 262.273 325.953 276.762 332.946 288.51C339.939 299.998 349.075 305.741 360.353 305.741L366.782 266.58H401.634L367.459 471H135L169.175 266.58H204.027L173.236 451.811H335.991L356.97 325.713C346.368 325.191 336.893 321.275 328.547 313.965C320.426 306.655 313.997 296.995 309.26 284.986C304.748 272.716 302.492 259.009 302.492 243.867C302.492 228.464 304.974 214.235 309.937 201.182C314.899 187.867 321.667 176.249 330.239 166.329C338.811 156.408 348.736 148.706 360.015 143.224C371.294 137.741 383.25 135 395.882 135C410.545 135 423.516 138.916 434.795 146.748C446.073 154.319 454.871 165.807 461.187 181.21C467.729 196.352 471 215.41 471 238.385C471 249.611 470.098 262.012 468.293 275.587C466.488 289.163 463.781 304.958 460.172 322.972C456.563 340.986 452.164 362.133 446.976 386.413C441.788 410.431 435.81 438.627 429.042 471Z"/></svg></a>
+  <div class="links">
+    <a href="#research" data-v="research">research</a>
+    <a href="#work" data-v="work">work</a>
+    <a href="#contact" data-v="contact">contact</a>
+  </div>
+</nav>
+
+<main>
+  <!-- ================= HOME ================= -->
+  <section class="view on" id="v-home">
+    <div class="hero">
+      <div class="intro">
+        <h1><span id="greet">Hey, I’m</span> <span class="namebox" id="namebox" title="click me"><span id="name">Pranav</span></span></h1>
+        <p class="statement">an economics and math student doing <span class="hl">empirical macro research</span>&nbsp;in&nbsp;R.</p>
+        <div class="cta">
+          <a class="btn primary" href="Pranavvetrivel-Resume.pdf" download data-cv>download cv <span aria-hidden="true">↓</span></a>
+          <button class="btn" type="button" data-email>copy email</button>
+          <a class="btn" href="https://www.linkedin.com/in/pranavvetrivel/" target="_blank" rel="noopener">linkedin <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="toolkit">
+          <div class="tk-head"><span>toolkit · throw them</span><button type="button" id="tidy">tidy up</button></div>
+          <div class="tags" id="tags">
+            <span class="tag orange">open to RA roles</span><span class="tag">R</span><span class="tag">RStudio</span><span class="tag">LaTeX</span><span class="tag">Excel</span><span class="tag">Python</span><span class="tag">economics</span><span class="tag">math</span><span class="tag">development</span><span class="tag">behavioural</span><span class="tag">archival</span>
+          </div>
+        </div>
+        <dl class="now">
+          <div><dt>now</dt><dd>Research Assistant, EMPCT</dd></div>
+          <div><dt>now</dt><dd>Junior Fellow, Texas Global Macro Team</dd></div>
+          <div><dt>studying</dt><dd>B.S. Economics + Mathematics, UT Austin, Class of 2030</dd></div>
+        </dl>
+      </div>
+
+      <figure class="fig">
+        <div class="fig-box tidy">
+          <span class="fig-corner"><svg width="26" height="26" viewBox="125 127 354 352" aria-hidden="true"><path fill="#000" stroke="#000" stroke-width="16" stroke-linejoin="miter" d="M429.042 471H410.77C418.44 432.883 425.207 400.119 431.072 372.706C436.938 345.294 441.562 321.797 444.946 302.217C448.329 282.375 450.021 265.275 450.021 250.916C450.021 223.503 444.72 202.618 434.118 188.259C423.741 173.639 409.53 166.329 391.483 166.329C380.204 166.329 369.264 169.331 358.662 175.336C348.059 181.079 339.375 189.825 332.607 201.573C325.84 213.322 322.456 227.811 322.456 245.042C322.456 262.273 325.953 276.762 332.946 288.51C339.939 299.998 349.075 305.741 360.353 305.741L366.782 266.58H401.634L367.459 471H135L169.175 266.58H204.027L173.236 451.811H335.991L356.97 325.713C346.368 325.191 336.893 321.275 328.547 313.965C320.426 306.655 313.997 296.995 309.26 284.986C304.748 272.716 302.492 259.009 302.492 243.867C302.492 228.464 304.974 214.235 309.937 201.182C314.899 187.867 321.667 176.249 330.239 166.329C338.811 156.408 348.736 148.706 360.015 143.224C371.294 137.741 383.25 135 395.882 135C410.545 135 423.516 138.916 434.795 146.748C446.073 154.319 454.871 165.807 461.187 181.21C467.729 196.352 471 215.41 471 238.385C471 249.611 470.098 262.012 468.293 275.587C466.488 289.163 463.781 304.958 460.172 322.972C456.563 340.986 452.164 362.133 446.976 386.413C441.788 410.431 435.81 438.627 429.042 471Z"/></svg></span>
+          <span class="fig-title">fig. 1</span>
+          <div class="fig-inner">
+            <pre class="code" id="code"></pre>
+            <div class="tib"><span id="tibble"># A tibble: 7 × 4</span><span>pranav.csv</span></div>
+            <div class="stage" id="stage" aria-hidden="true"></div>
+            <table class="sr-only">
+              <caption>My experience</caption>
+              <tr><th>role</th><th>org</th><th>start</th><th>status</th></tr>
+              <tr><td>Research Assistant</td><td>EMPCT</td><td>2026-11</td><td>active</td></tr>
+              <tr><td>Junior Fellow</td><td>Global Macro Team</td><td>2026-09</td><td>active</td></tr>
+              <tr><td>Research Intern</td><td>NYU Abu Dhabi</td><td>2025-01</td><td>done</td></tr>
+              <tr><td>Student Intern</td><td>NYU Abu Dhabi</td><td>2023-06</td><td>done</td></tr>
+              <tr><td>Team Lead</td><td>F1 in Schools</td><td>2022-08</td><td>done</td></tr>
+            </table>
+          </div>
+        </div>
+        <figcaption><span id="figcap"><b>Figure 1.</b> My experience as a messy CSV, about to be tidied in R.</span><span class="figbtns"><button class="btn sm" type="button" id="mess">mess it up</button><button class="btn sm" type="button" id="clean">clean it ▸</button></span></figcaption>
+      </figure>
+    </div>
+
+    <section class="work" id="work">
+      <h2>selected work <a class="allwork" href="#work">see all ↗</a></h2>
+      <div class="wlist">
+        <a class="witem" href="#research"><span class="t">Researcher migration <i>↗</i></span><span class="y">2026</span><span class="k">Paper · Global Macro Team</span><span class="d">Regression analysis of cross-country researcher migration, with policy recommendations for North Macedonia.</span></a>
+        <a class="witem" href="#research"><span class="t">Interview themes <i>↗</i></span><span class="y">2025</span><span class="k">Research internship · NYU Abu Dhabi</span><span class="d">Transcribed 100,000+ words of interviews and drafted key themes and research pathways.</span></a>
+        <a class="witem" href="#work"><span class="t">F1 in Schools <i>↗</i></span><span class="y">2022–25</span><span class="k">Team lead · Pantherion</span><span class="d">Finance, sustainability, graphics and manufacturing lead. National finalist 2023–25 and holder of the national speed record.</span></a>
+        <a class="witem" href="#work"><span class="t">This website <i>↗</i></span><span class="y">2026</span><span class="k">Code · HTML, CSS, JS</span><span class="d">Hand-built, no framework. The messy CSV above is plain JavaScript animating a real R pipeline.</span></a>
+      </div>
+    </section>
+  </section>
+
+  <section class="view" id="v-research">
+      <div class="r-wrap">
+        <div class="r-hero">
+          <div class="heading"><span>My</span><span class="wordbox"><span class="w">Research</span></span></div>
+          <p>Empirical macroeconomics and policy, currently studying <em>why researchers migrate</em> and what governments can do about it.</p>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><b data-count="3">0</b><span>research roles</span></div>
+          <div class="stat"><b data-count="2">0</b><span>papers &amp; projects</span></div>
+          <div class="stat"><b data-count="100" data-suffix="k+">0</b><span>words of interviews transcribed</span></div>
+        </div>
+
+        <div>
+          <h2 class="sec-h">featured</h2>
+          <article class="featured">
+            <div class="side">
+              <span class="yr">2026</span>
+              <span><span class="tag orange">in progress</span></span>
+              <span class="who">Texas Global Macro Team</span>
+            </div>
+            <div class="main">
+              <h3>Researcher migration</h3>
+              <p>A nested-methodology paper: a quantitative model combined with qualitative policy research, ending in specific recommendations for North Macedonia.</p>
+              <div class="who">Under Sid Dasari (Senior Fellow), advised by Dr. Ashley Moran · R, RStudio, LaTeX</div>
+            </div>
+          </article>
+        </div>
+
+        <div>
+          <h2 class="sec-h">experience</h2>
+          <div class="listbox acc">
+            <div class="acc-item">
+              <button class="acc-row" aria-expanded="false"><span class="dot o">↘</span><span class="acc-title">Undergraduate Research Assistant</span><span class="acc-sub">EMPCT</span><span class="acc-yr">Nov 2026 –</span><span class="plus">+</span></button>
+              <div class="acc-body"><div><ul><li>Empirical Macroeconomic Policy Center of Texas, UT Economics Department</li><li>Working on LONESTAR (Long-run Economic Statistics of Texas: Archive &amp; Research)</li><li>Parsing large qualitative sources such as newspapers for economic archival research</li></ul></div></div>
+            </div>
+            <div class="acc-item">
+              <button class="acc-row" aria-expanded="false"><span class="dot ">↘</span><span class="acc-title">Junior Fellow</span><span class="acc-sub">Texas Global Macro Team</span><span class="acc-yr">Sep 2026 –</span><span class="plus">+</span></button>
+              <div class="acc-body"><div><ul><li>Inducted as a Junior Fellow after a competitive application process</li><li>Researching brain drain in North Macedonia under Sid Dasari (Senior Fellow), advised by Dr. Ashley Moran</li><li>Using R for multiple linear regressions on cross-country researcher migration data, with robust standard errors, interaction terms and diagnostics</li></ul></div></div>
+            </div>
+            <div class="acc-item">
+              <button class="acc-row" aria-expanded="false"><span class="dot ">↘</span><span class="acc-title">Migration Research Intern</span><span class="acc-sub">NYU Abu Dhabi</span><span class="acc-yr">Jan–Jun 2025</span><span class="plus">+</span></button>
+              <div class="acc-body"><div><ul><li>Transcribed interviews for Professor Anju Paul’s qualitative migration research, over 100,000 words</li><li>Synthesized emerging themes and recommended directions for further research</li></ul></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="sec-h">methods</h2>
+          <div class="tags"><span class="tag">R</span><span class="tag">RStudio</span><span class="tag">LaTeX</span><span class="tag">Excel</span><span class="tag">Python</span><span class="tag orange">open to RA roles</span></div>
+        </div>
+      </div>
+    </section>
+
+  <section class="view" id="v-work">
+    <div class="r-wrap">
+      <div class="r-hero">
+        <div class="heading"><span>My</span><span class="wordbox"><span class="w">Work</span></span></div>
+        <p>Papers, <em>leadership</em> and code. Filter them, then open one to see what I actually did.</p>
+      </div>
+      <div class="filters" id="filters" role="group" aria-label="Filter work">
+        <span class="lbl">show</span>
+        <button class="chip on" data-f="all">all <b>7</b></button>
+        <button class="chip" data-f="research">research <b>4</b></button>
+        <button class="chip" data-f="lead">leadership <b>2</b></button>
+        <button class="chip" data-f="code">code <b>1</b></button>
+      </div>
+      <div class="pgrid" id="pgrid">
+        <article class="pcard" data-k="research" tabindex="0" aria-expanded="false">
+          <div class="pc-top"><span class="kind">research · in progress</span><span>2026</span></div>
+          <div class="pc-body">
+            <h3>Researcher migration <i>+</i></h3>
+            <p>Researching brain drain in North Macedonia: a quantitative model combined with qualitative policy research, ending in specific recommendations.</p>
+            <div class="tags"><span class="tag">R</span><span class="tag">RStudio</span><span class="tag">LaTeX</span></div>
+            <div class="pc-more"><div>
+              <ul><li>Junior Fellow, Texas Global Macro Team, after a competitive application</li><li>Under Sid Dasari (Senior Fellow), advised by Dr. Ashley Moran</li><li>Multiple linear regressions on cross-country researcher migration data, with robust standard errors, interaction terms and diagnostics for multicollinearity and influential observations</li></ul>
+              <a class="go" href="#research">see it on the research page →</a>
+            </div></div>
+          </div>
+        </article>
+        <article class="pcard" data-k="research" tabindex="0" aria-expanded="false">
+          <div class="pc-top"><span class="kind">research internship</span><span>2025</span></div>
+          <div class="pc-body">
+            <h3>Interview themes <i>+</i></h3>
+            <p>Transcribed more than 100,000 words of interviews for qualitative migration research and drafted the key themes.</p>
+            <div class="tags"><span class="tag">qualitative</span><span class="tag">transcription</span></div>
+            <div class="pc-more"><div>
+              <ul><li>Migration Research Intern, January to June 2025</li><li>For Professor Anju Paul’s qualitative migration research</li><li>Synthesized emerging themes and recommended directions for further research</li></ul>
+              <a class="go" href="#research">see it on the research page →</a>
+            </div></div>
+          </div>
+        </article>
+        <article class="pcard" data-k="research" tabindex="0" aria-expanded="false">
+          <div class="pc-top"><span class="kind">essay · IB</span><span>2024–25</span></div>
+          <div class="pc-body">
+            <h3>UPI and financial inclusion <i>+</i></h3>
+            <p>Extended Essay in economics: to what extent has India’s unified payments interface reduced market failures to promote financial inclusion in rural India?</p>
+            <div class="tags"><span class="tag">economics</span><span class="tag">India</span><span class="tag">policy</span></div>
+            <div class="pc-more"><div>
+              <ul><li>Independent research essay for the International Baccalaureate</li></ul>
+            </div></div>
+          </div>
+        </article>
+        <article class="pcard" data-k="research" tabindex="0" aria-expanded="false">
+          <div class="pc-top"><span class="kind">essay · award</span><span>2025</span></div>
+          <div class="pc-body">
+            <h3>LSE essay competition <i>+</i></h3>
+            <p>Distinction in the London School of Economics Students’ Union Economics Essay Competition.</p>
+            <div class="tags"><span class="tag">economics</span><span class="tag">writing</span></div>
+            <div class="pc-more"><div>
+              <ul><li>An international competition assessing students’ analysis of economic issues through research-based essays</li></ul>
+            </div></div>
+          </div>
+        </article>
+        <article class="pcard" data-k="lead" tabindex="0" aria-expanded="false">
+          <div class="pc-top"><span class="kind">leadership</span><span>2022–25</span></div>
+          <div class="pc-body">
+            <h3>F1 in Schools <i>+</i></h3>
+            <p>Finance, sustainability, graphics and manufacturing lead for a student team selected for the F1 in Schools National Finals.</p>
+            <div class="tags"><span class="tag">leadership</span><span class="tag">design</span><span class="tag">finance</span></div>
+            <div class="pc-more"><div>
+              <ul><li>Ran multiple teams over three years, placing 2nd, 3rd, 4th, 7th and 8th at the 2023, 2024 and 2025 national finals</li><li>The team holds the national speed record, set at the 2024 National Finals</li><li>Led the visual identity: branding, competition portfolios, the pit display and digital media</li><li>Led sponsorship proposals that secured more than AED 33,000 (about USD 9,000)</li></ul>
+            </div></div>
+          </div>
+        </article>
+        <article class="pcard" data-k="lead" tabindex="0" aria-expanded="false">
+          <div class="pc-top"><span class="kind">leadership</span><span>2024–26</span></div>
+          <div class="pc-body">
+            <h3>BISAD Economics Journal <i>+</i></h3>
+            <p>Chief Editor and contributor of a student-led journal on economic policy, theory and current affairs.</p>
+            <div class="tags"><span class="tag">editing</span><span class="tag">writing</span><span class="tag">economics</span></div>
+            <div class="pc-more"><div>
+              <ul><li>Managed the editorial team and published 30+ articles over two years</li><li>Grew readership to 6,000+ per issue across the school community</li></ul>
+            </div></div>
+          </div>
+        </article>
+        <article class="pcard" data-k="code" tabindex="0" aria-expanded="false">
+          <div class="pc-top"><span class="kind">code</span><span>2026</span></div>
+          <div class="pc-body">
+            <h3>This website <i>+</i></h3>
+            <p>Hand-built, no framework. The messy CSV on the home page is plain JavaScript animating a real R pipeline.</p>
+            <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+            <div class="pc-more"><div>
+              <ul><li>One file, no libraries</li><li>Throwable tags, a self-cleaning spreadsheet and a greeting in eight languages</li></ul>
+              <a class="go" href="#home">back to the home page →</a>
+            </div></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="v-contact">
+    <div class="r-wrap">
+      <div class="r-hero">
+        <div class="heading"><span>Let’s</span><span class="wordbox"><span class="w">Talk</span></span></div>
+        <p>I’m looking for <em>research assistant roles</em> in UT Austin economics and coding internships. Email is the fastest way.</p>
+      </div>
+      <div class="c-grid">
+        <div class="c-panel">
+          <h2>reach me</h2>
+          <button class="crow" id="c-email" type="button"><small>email</small><span class="v" id="c-email-v">pranavvetrivel@utexas.edu</span><em>⧉</em></button>
+          <a class="crow" href="https://www.linkedin.com/in/pranavvetrivel/" target="_blank" rel="noopener"><small>linkedin</small><span class="v">pranavvetrivel</span><em>↗</em></a>
+          <a class="crow" href="Pranavvetrivel-Resume.pdf" download id="c-cv"><small>cv</small><span class="v">download my cv</span><em>↓</em></a>
+          <a class="crow" href="https://github.com/pr8music" target="_blank" rel="noopener" id="c-gh"><small>github</small><span class="v">pr8music</span><em>↗</em></a>
+        </div>
+        <div class="c-panel">
+          <h2>write to me</h2>
+          <div class="reasons" id="reasons" role="group" aria-label="Reason for writing">
+            <button class="chip on" data-s="RA opportunity">RA opportunity</button>
+            <button class="chip" data-s="Internship">internship</button>
+            <button class="chip" data-s="Just saying hi">just saying hi</button>
+          </div>
+          <form class="c-form" id="c-form">
+            <textarea id="c-msg" placeholder="Hi Pranav, …" aria-label="Your message"></textarea>
+            <div class="row">
+              <button class="btn primary" type="submit">open in my email app</button>
+              <button class="btn" type="button" id="c-copy">copy message</button>
+              <span class="hint" id="c-hint"></span>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="c-status">
+        <div><small>status</small><b><span class="live-dot"></span>open to RA roles</b></div>
+        <div><small>studying</small><b>UT Austin · 2030</b></div>
+        <div><small>local time</small><b class="clk">austin, tx</b></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <span class="where clk" id="clock">austin, tx</span>
+  <ul>
+    <li><button id="copy-email">email</button></li>
+    <li><a href="Pranavvetrivel-Resume.pdf" download id="cv">cv</a></li>
+    <li><a href="https://www.linkedin.com/in/pranavvetrivel/" target="_blank" rel="noopener">linkedin</a></li>
+    <li><a href="https://github.com/pr8music" target="_blank" rel="noopener" id="gh">github</a></li>
+  </ul>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  const EMAIL = 'pranavvetrivel@utexas.edu';
+  const CV = 'Pranavvetrivel-Resume.pdf', GH = 'https://github.com/pr8music';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  let toastT;
+  const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 1600); };
+
+  /* clock */
+  const tick = () => { try { const t = 'austin, tx · ' + new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', hour: 'numeric', minute: '2-digit', second: '2-digit' }).format(new Date()).toLowerCase(); $$('.clk').forEach(e => e.textContent = t); } catch (e) {} };
+  tick(); setInterval(tick, 1000);
+
+  /* views + scrolling */
+  function scrollToId(id) { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); }
+  const VIEWS = ['research', 'work', 'contact'];
+  function route() {
+    const v = location.hash.slice(1), cur = VIEWS.includes(v) ? v : 'home';
+    $('#v-home').classList.toggle('on', cur === 'home');
+    VIEWS.forEach(n => $('#v-' + n).classList.toggle('on', cur === n));
+    document.body.dataset.v = cur;
+    $$('.links a').forEach(a => a.classList.toggle('active', a.dataset.v === cur));
+    scrollTo(0, 0);
+    if (cur === 'research') countUp();
+    if (cur === 'work') animateCards();
+  }
+  addEventListener('hashchange', route);
+
+  /* greeting + scramble (name scrambles, greeting cycles through languages) */
+  const greetings = ['Hey, I’m', 'Hi, I’m', 'Howdy, I’m', 'Hola, soy', 'Yo, I’m', 'नमस्ते, मैं', 'Hallo, ich bin', 'வணக்கம், நான்'];
+  let gi = 0, busy = false;
+  const h1 = $('#greet').parentElement, intro = h1.parentElement;
+  /* size the heading once so the longest greeting still fits on one line */
+  function fitHero() {
+    h1.style.fontSize = '100px';
+    const keep = $('#greet').textContent; let widest = 0;
+    greetings.forEach(g => { $('#greet').textContent = g; widest = Math.max(widest, h1.scrollWidth); });
+    $('#greet').textContent = keep;
+    h1.style.fontSize = Math.max(24, Math.min(64, 100 * intro.clientWidth / widest * 0.97)).toFixed(1) + 'px';
+  }
+  fitHero(); addEventListener('resize', fitHero);
+  document.fonts && document.fonts.ready.then(fitHero);
+  $('#namebox').addEventListener('click', () => {
+    if (busy) return;
+    gi = (gi + 1) % greetings.length; $('#greet').textContent = greetings[gi];
+    if (reduce) return;
+    busy = true; let f = 0; const target = 'Pranav', ch = 'ABCDEFGHJKLMNPRSTVWXYZ$%#';
+    const nb = $('#namebox'); nb.style.minWidth = nb.offsetWidth + 'px';
+    const id = setInterval(() => {
+      f++; $('#name').textContent = target.split('').map((c, i) => i < f / 2 ? c : ch[Math.random() * ch.length | 0]).join('');
+      if (f >= 12) { clearInterval(id); $('#name').textContent = target; nb.style.minWidth = ''; busy = false; }
+    }, 40);
+  });
+
+  /* ---------- throwable tags (bring-back from v1) ---------- */
+  const tagBodies = new Map();
+  let tagRunning = false, throws = 0;
+  function applyTag(el, b) { el.style.transform = `translate(${b.x}px, ${b.y}px) rotate(${b.rot}deg)`; }
+  function tagKick() { if (!tagRunning) { tagRunning = true; requestAnimationFrame(tagStep); } }
+  function tagStep() {
+    let any = false;
+    for (const [el, b] of tagBodies) {
+      if (b.drag) { any = true; continue; }
+      if (!b.live) continue;
+      b.x += b.vx; b.y += b.vy; b.rot += b.vr;
+      b.vx *= 0.94; b.vy *= 0.94; b.vr *= 0.9;
+      const r = el.getBoundingClientRect();
+      if (r.left < 0) { b.x -= r.left; b.vx = Math.abs(b.vx) * 0.7; }
+      if (r.right > innerWidth) { b.x -= r.right - innerWidth; b.vx = -Math.abs(b.vx) * 0.7; }
+      if (r.top < 56) { b.y += 56 - r.top; b.vy = Math.abs(b.vy) * 0.7; }
+      if (r.bottom > innerHeight) { b.y -= r.bottom - innerHeight; b.vy = -Math.abs(b.vy) * 0.7; }
+      applyTag(el, b);
+      if (Math.abs(b.vx) + Math.abs(b.vy) + Math.abs(b.vr) > 0.05) any = true; else b.live = false;
+    }
+    if (any) requestAnimationFrame(tagStep); else tagRunning = false;
+  }
+  $$('#tags .tag').forEach(el => {
+    const b = { x: 0, y: 0, vx: 0, vy: 0, rot: 0, vr: 0, drag: false, live: false };
+    tagBodies.set(el, b);
+    let sx, sy, lx, ly, lt, moved;
+    el.addEventListener('pointerdown', e => {
+      if (e.button !== 0) return;
+      e.preventDefault(); el.setPointerCapture(e.pointerId);
+      b.drag = true; b.live = true; moved = false;
+      sx = e.clientX - b.x; sy = e.clientY - b.y; lx = e.clientX; ly = e.clientY; lt = performance.now();
+      b.vx = b.vy = 0; el.classList.add('dragging'); tagKick();
+    });
+    el.addEventListener('pointermove', e => {
+      if (!b.drag) return;
+      const now = performance.now(), dt = Math.max(now - lt, 1);
+      b.vx = (e.clientX - lx) / dt * 16; b.vy = (e.clientY - ly) / dt * 16;
+      lx = e.clientX; ly = e.clientY; lt = now;
+      b.x = e.clientX - sx; b.y = e.clientY - sy; b.vr = b.vx * 0.4;
+      if (Math.abs(b.x) + Math.abs(b.y) > 4) moved = true;
+      applyTag(el, b);
+    });
+    const up = () => {
+      if (!b.drag) return; b.drag = false; el.classList.remove('dragging');
+      if (moved && ++throws === 3) toast('nice arm. press T to tidy up');
+    };
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+  });
+  function tidyTags() {
+    for (const [el, b] of tagBodies) {
+      const from = el.style.transform || 'none';
+      b.vx = b.vy = b.vr = 0; b.live = false; b.x = b.y = b.rot = 0; applyTag(el, b);
+      if (!reduce) el.animate([{ transform: from }, { transform: 'translate(0px, 0px) rotate(0deg)' }], { duration: 450, easing: 'cubic-bezier(.3,1.4,.5,1)' });
+    }
+  }
+  $('#tidy').addEventListener('click', tidyTags);
+
+  /* hero buttons reuse the footer's email + cv actions */
+  $$('[data-email]').forEach(b => b.addEventListener('click', () => $('#copy-email').click()));
+
+  /* ---------- fig. 1: a messy CSV of my experience that tidies itself in R ---------- */
+  const CODE = [
+    '<span class="fn">library</span>(tidyverse); <span class="fn">library</span>(janitor)',
+    'experience <span class="op">&lt;-</span> <span class="fn">read_csv</span>(<span class="st">"pranav.csv"</span>, trim_ws = FALSE) <span class="op">|&gt;</span>',
+    '  <span class="fn">clean_names</span>() <span class="op">|&gt;</span>',
+    '  <span class="fn">mutate</span>(<span class="fn">across</span>(<span class="fn">where</span>(is.character), str_squish)) <span class="op">|&gt;</span>',
+    '  <span class="fn">distinct</span>() <span class="op">|&gt;</span>',
+    '  <span class="fn">drop_na</span>(role) <span class="op">|&gt;</span>',
+    '  <span class="fn">mutate</span>(role   = <span class="fn">str_to_title</span>(role),',
+    '         org    = <span class="fn">recode</span>(org, <span class="st">"NYU Abu Dahbi"</span> = <span class="st">"NYU Abu Dhabi"</span>),',
+    '         start  = <span class="fn">my</span>(start),',
+    '         status = <span class="fn">str_to_lower</span>(status)) <span class="op">|&gt;</span>',
+    '  <span class="fn">arrange</span>(<span class="fn">desc</span>(start))',
+  ];
+  const codeEl = $('#code'), stage = $('#stage'), tib = $('#tibble'), cap = $('#figcap');
+  codeEl.innerHTML = CODE.map((l, i) => `<span class="ln"><i>${i + 1}</i>${l}<span class="note"></span></span>`).join('');
+  const lines = $$('.ln', codeEl);
+
+  const RAW_HEAD = ['ROLE', 'Org␣', 'Start', 'Status?'], CLEAN_HEAD = ['role', 'org', 'start', 'status'];
+  const ROWS = [
+    { id: 'a', raw: ['research intern', 'NYU Abu Dahbi', 'January 2025', 'Done'], clean: ['Research Intern', 'NYU Abu Dhabi', '2025-01-01', 'done'], key: 202501, go: '#research' },
+    { id: 'b', raw: ['Junior Fellow␣␣', 'Global Macro Team', 'sep 2026', 'ACTIVE'], clean: ['Junior Fellow', 'Global Macro Team', '2026-09-01', 'active'], key: 202609, go: '#research' },
+    { id: 'c', raw: ['NA', '???', 'NA', 'NA'], na: true, key: 0 },
+    { id: 'd', raw: ['research assistant', '␣EMPCT', 'Nov 2026', 'active'], clean: ['Research Assistant', 'EMPCT', '2026-11-01', 'active'], key: 202611, go: '#research' },
+    { id: 'e', raw: ['Junior Fellow', 'Global Macro Team', 'sep 2026', 'ACTIVE'], dup: true, key: 202609 },
+    { id: 'f', raw: ['team lead', 'F1 in Schools', 'aug 2022', 'Done'], clean: ['Team Lead', 'F1 in Schools', '2022-08-01', 'done'], key: 202208, go: '#work' },
+    { id: 'g', raw: ['Student Intern', 'NYU Abu Dhabi', 'Jun 2023', 'done'], clean: ['Student Intern', 'NYU Abu Dhabi', '2023-06-01', 'done'], key: 202306, go: '#research' },
+  ];
+  const FR = [.32, .29, .23, .16], FR_SM = [.32, .27, .26, .15];
+  const fr = () => stage.clientWidth < 420 ? FR_SM : FR;
+  const cells = {}, val = {}, gut = { l: [], n: [] }, LH = 24, G = 30;
+  const rectOf = {}, jit = {};
+  let order = [], gone = new Set(), headType = [], messy = true, chaos = false, done = false, busy2 = false;
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const fmt = s => esc(s).replace(/␣/g, '<span class="ws">␣</span>');
+  const rnd = (a, b) => a + Math.random() * (b - a);
+
+  function mk(key, head) {
+    const d = document.createElement('div');
+    d.className = 'cell' + (head ? ' h' : '');
+    d.dataset.key = key;
+    stage.appendChild(d); cells[key] = d;
+  }
+  const mkGut = (txt, cls) => { const d = document.createElement('div'); d.className = 'gut ' + (cls || ''); d.textContent = txt; stage.appendChild(d); return d; };
+  const corner = mkGut('', 'corner');
+  'ABCD'.split('').forEach(L => gut.l.push(mkGut(L)));
+  for (let r = 0; r < 8; r++) gut.n.push(mkGut(r + 1));
+  const sel = document.createElement('div'); sel.className = 'sel'; stage.appendChild(sel);
+  for (let c = 0; c < 4; c++) mk('h:' + c, true);
+  const info = document.createElement('div'); info.className = 'tib-info'; info.textContent = '# ℹ click a row to open it'; stage.appendChild(info);
+  ROWS.forEach(r => { for (let c = 0; c < 4; c++) mk(r.id + ':' + c, false); });
+
+  function setHead(c, name) {
+    val['h:' + c] = name;
+    cells['h:' + c].innerHTML = `<span>${fmt(name)}</span><span class="ty">&lt;${headType[c]}&gt;</span>`;
+  }
+  function setCell(key, text) {
+    val[key] = text; const el = cells[key];
+    el.innerHTML = fmt(text); el.classList.toggle('na', text === 'NA');
+  }
+  function showSel(keys) {
+    gut.l.forEach(g => g.classList.remove('act')); gut.n.forEach(g => g.classList.remove('act'));
+    if (!keys || !keys.length) { sel.classList.remove('on'); return; }
+    let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9; const cols = new Set(), rows = new Set();
+    keys.forEach(k => { const r = rectOf[k]; if (!r) return; x0 = Math.min(x0, r.x); y0 = Math.min(y0, r.y); x1 = Math.max(x1, r.x + r.w); y1 = Math.max(y1, r.y + r.h); cols.add(+k.split(':')[1]); rows.add(Math.round((r.y - LH) / r.h)); });
+    sel.style.width = (x1 - x0 + 1) + 'px'; sel.style.height = (y1 - y0 + 1) + 'px'; sel.style.transform = `translate(${x0 - 1}px, ${y0 - 1}px)`; sel.classList.add('on');
+    gut.l.forEach((g, c) => g.classList.toggle('act', cols.has(c)));
+    gut.n.forEach((g, r) => g.classList.toggle('act', rows.has(r)));
+  }
+  function hit(keys) {
+    keys.forEach(k => cells[k].classList.add('hit')); showSel(keys);
+    setTimeout(() => keys.forEach(k => cells[k].classList.remove('hit')), 560);
+  }
+  const rowKeys = id => [0, 1, 2, 3].map(c => id + ':' + c);
+  const allKeys = () => Object.keys(cells);
+
+  function resetRaw() {
+    order = ROWS.map(r => r.id); gone = new Set(); headType = ['chr', 'chr', 'chr', 'chr'];
+    messy = true; done = false; stage.classList.remove('live');
+    for (let c = 0; c < 4; c++) setHead(c, RAW_HEAD[c]);
+    ROWS.forEach(r => r.raw.forEach((v, c) => setCell(r.id + ':' + c, v)));
+    allKeys().forEach(k => { cells[k].classList.remove('gone', 'hov'); jit[k] = { x: rnd(-4, 4), y: rnd(-3, 3), r: rnd(-1.6, 1.6) }; cells[k].style.transitionDelay = '0ms'; });
+    showSel(null);
+    lines.forEach(l => { l.classList.remove('on', 'done'); l.querySelector('.note').textContent = ''; });
+    tib.textContent = '# A tibble: 7 × 4';
+  }
+  function rowH() { return Math.max(30, Math.min(42, Math.floor((stage.clientHeight - LH) / 8))); }
+  function place(key, x, y, w, h, r = 0) {
+    const el = cells[key], j = messy && !chaos ? jit[key] : { x: 0, y: 0, r: 0 }; rectOf[key] = { x, y, w, h };
+    el.style.width = w + 'px'; el.style.height = h + 'px';
+    el.style.transform = `translate(${(x + j.x).toFixed(1)}px, ${(y + j.y).toFixed(1)}px) rotate(${(r + j.r).toFixed(2)}deg)`;
+  }
+  function placeGut(el, x, y, w, h, r = 0) { el.style.width = w + 'px'; el.style.height = h + 'px'; el.style.transform = `translate(${x}px, ${y}px) rotate(${r}deg)`; }
+  function grid() {
+    const W = stage.clientWidth - G, h = rowH(), F = fr();
+    const xs = F.map((f, i) => G + F.slice(0, i).reduce((a, b) => a + b, 0) * W), ws = F.map(f => f * W);
+    return { h, xs, ws };
+  }
+  function layoutGut(n) {
+    const { h, xs, ws } = grid();
+    placeGut(corner, 0, 0, G, LH);
+    gut.l.forEach((g, c) => placeGut(g, xs[c], 0, ws[c], LH));
+    gut.n.forEach((g, r) => { g.classList.toggle('off', r >= n + 1); placeGut(g, 0, LH + r * h, G, h); });
+  }
+  function layout() {
+    if (chaos) return scatter();
+    const { h, xs, ws } = grid();
+    for (let c = 0; c < 4; c++) place('h:' + c, xs[c], LH, ws[c], h);
+    order.forEach((id, i) => { for (let c = 0; c < 4; c++) place(id + ':' + c, xs[c], LH + (i + 1) * h, ws[c], h); });
+    layoutGut(order.length);
+    info.style.transform = `translate(${G}px, ${LH + (order.length + 1) * h + 12}px)`;
+  }
+  /* "oops": everything is thrown across the sheet, tilted, with the row numbers and column letters too */
+  function scatter() {
+    const W = stage.clientWidth, H = stage.clientHeight, h = rowH(), F = fr();
+    allKeys().forEach(k => {
+      const c = +k.split(':')[1], w = F[c] * (W - G), el = cells[k];
+      el.style.transitionDelay = Math.round(rnd(0, 140)) + 'ms';
+      place(k, rnd(-0.04 * W, W - w * 0.9), rnd(0, H - h), w, h, rnd(-38, 38));
+    });
+    gut.l.concat(gut.n, [corner]).forEach(g => { g.classList.remove('off'); placeGut(g, rnd(0, W - 40), rnd(0, H - 24), g === corner || gut.n.includes(g) ? G : 90, g === corner || gut.n.includes(g) ? 28 : LH, rnd(-30, 30)); });
+  }
+  function drop(id) {
+    gone.add(id); order = order.filter(x => x !== id);
+    rowKeys(id).forEach(k => {
+      cells[k].classList.add('gone');
+    });
+    setTimeout(() => { layout(); showSel(null); }, 120);
+    tib.textContent = `# A tibble: ${order.length} × 4`;
+  }
+
+  const STEPS = [
+    { ln: [1], note: '# Rows: 7 Columns: 4', run() { hit(allKeys().filter(k => !k.startsWith('h'))); } },
+    { ln: [2], note: '# tidy names', run() { for (let c = 0; c < 4; c++) setHead(c, CLEAN_HEAD[c]); hit(['h:0', 'h:1', 'h:2', 'h:3']); } },
+    { ln: [3], note: '# 3 stray spaces', run() {
+        const ks = allKeys().filter(k => !k.startsWith('h') && val[k].includes('␣'));
+        ks.forEach(k => setCell(k, val[k].replace(/␣/g, ''))); hit(ks);
+      } },
+    { ln: [4], note: '# -1 duplicate row', run() { hit(rowKeys('e')); setTimeout(() => drop('e'), 380); } },
+    { ln: [5], note: '# -1 row missing role', run() { hit(rowKeys('c')); setTimeout(() => drop('c'), 380); } },
+    { ln: [6, 7, 8, 9], note: '# fixed a typo, parsed dates', run() {
+        const ks = [];
+        ROWS.filter(r => r.clean && !gone.has(r.id)).forEach(r => r.clean.forEach((v, c) => { const k = r.id + ':' + c; if (val[k] !== v) { setCell(k, v); ks.push(k); } }));
+        headType[2] = 'date'; setHead(2, 'start'); hit(ks.concat('h:2'));
+      } },
+    { ln: [10], note: '# newest first. tidy ✓', run() {
+        showSel(['h:2'].concat(order.map(id => id + ':2')));
+        setTimeout(() => { order.sort((x, y) => ROWS.find(r => r.id === y).key - ROWS.find(r => r.id === x).key); messy = false; layout(); }, reduce ? 0 : 300);
+      } },
+  ];
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  async function clean() {
+    if (busy2) return; busy2 = true;
+    cap.innerHTML = '<b>Figure 1.</b> Running the pipeline…';
+    if (done) { resetRaw(); layout(); await sleep(reduce ? 0 : 350); }
+    if (chaos) { chaos = false; stage.classList.remove('chaos'); allKeys().forEach(k => cells[k].style.transitionDelay = '0ms'); layout(); await sleep(reduce ? 0 : 450); allKeys().forEach(k => cells[k].style.transitionDelay = '0ms'); }
+    for (const s of STEPS) {
+      lines.forEach(l => l.classList.remove('on'));
+      s.ln.forEach(i => lines[i].classList.add('on'));
+      s.run();
+      lines[s.ln[0]].querySelector('.note').textContent = '  ' + s.note;
+      await sleep(reduce ? 0 : 680);
+      s.ln.forEach(i => { lines[i].classList.remove('on'); lines[i].classList.add('done'); });
+    }
+    showSel(null); done = true; busy2 = false; stage.classList.add('live');
+    cap.innerHTML = '<b>Figure 1.</b> My experience as a messy CSV, tidied in R. Click a row to read more.';
+  }
+  function messUp() {
+    if (busy2) return;
+    resetRaw(); chaos = true; stage.classList.add('chaos'); scatter();
+    cap.innerHTML = '<b>Figure 1.</b> Oops, messy again. Press “clean it” to run the pipeline.';
+  }
+  $('#mess').addEventListener('click', messUp);
+  $('#clean').addEventListener('click', clean);
+
+  /* the tidy table doubles as navigation */
+  stage.addEventListener('mouseover', e => {
+    const el = e.target.closest('.cell'); stage.querySelectorAll('.hov').forEach(x => x.classList.remove('hov'));
+    if (!done || !el || el.classList.contains('h')) { if (done) showSel(null); return; }
+    const rk = rowKeys(el.dataset.key.split(':')[0]);
+    rk.forEach(k => cells[k].classList.add('hov')); showSel(rk);
+  });
+  stage.addEventListener('mouseleave', () => { stage.querySelectorAll('.hov').forEach(x => x.classList.remove('hov')); if (done) showSel(null); });
+  stage.addEventListener('click', e => {
+    const el = e.target.closest('.cell'); if (!done || !el || el.classList.contains('h')) return;
+    const r = ROWS.find(x => x.id === el.dataset.key.split(':')[0]); if (!r || !r.go) return;
+    location.hash = r.go.slice(1);
+  });
+
+  resetRaw(); layout();
+  let rT; addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(layout, 120); });
+  if (reduce) { clean(); }
+  else if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { io.disconnect(); setTimeout(clean, 700); } }, { threshold: 0.35 });
+    io.observe(stage);
+  } else setTimeout(clean, 700);
+
+  /* footer actions */
+  $('#copy-email').addEventListener('click', async () => {
+    if (!EMAIL) { toast('email coming soon'); return; }
+    try { await navigator.clipboard.writeText(EMAIL); toast('copied ' + EMAIL); } catch (e) { toast(EMAIL); }
+  });
+
+  /* research view: accordions + count-up */
+  $$('.acc-row').forEach(b => b.addEventListener('click', () => {
+    const it = b.closest('.acc-item'), open = !it.classList.contains('open');
+    it.parentElement.querySelectorAll('.acc-item.open').forEach(o => o.classList.remove('open'));
+    if (open) it.classList.add('open');
+  }));
+  function countUp() {
+    $$('[data-count]').forEach(el => {
+      const end = +el.dataset.count, suf = el.dataset.suffix || '', t0 = performance.now(), d = reduce ? 0 : 900;
+      const f = now => { const k = d ? Math.min((now - t0) / d, 1) : 1; el.textContent = Math.round(end * (1 - Math.pow(1 - k, 3))) + suf; if (k < 1) requestAnimationFrame(f); };
+      requestAnimationFrame(f);
+    });
+  }
+
+  /* work page: filters + expandable cards */
+  const cards = $$('.pcard');
+  function animateCards() {
+    if (reduce || !cards[0].animate) return;
+    cards.filter(c => !c.classList.contains('hide')).forEach((c, i) => c.animate([{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }], { duration: 380, delay: i * 70, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards' }));
+  }
+  $$('#filters .chip').forEach(b => b.addEventListener('click', () => {
+    $$('#filters .chip').forEach(x => x.classList.toggle('on', x === b));
+    const f = b.dataset.f;
+    cards.forEach(c => { c.classList.toggle('hide', f !== 'all' && c.dataset.k !== f); c.classList.remove('open'); c.setAttribute('aria-expanded', 'false'); });
+    animateCards();
+  }));
+  cards.forEach(c => {
+    const toggle = () => { const o = !c.classList.contains('open'); cards.forEach(x => { x.classList.remove('open'); x.setAttribute('aria-expanded', 'false'); }); if (o) { c.classList.add('open'); c.setAttribute('aria-expanded', 'true'); } };
+    c.addEventListener('click', e => { if (e.target.closest('a')) return; toggle(); });
+    c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  });
+
+  /* contact page */
+  let reason = 'RA opportunity';
+  $$('#reasons .chip').forEach(b => b.addEventListener('click', () => { reason = b.dataset.s; $$('#reasons .chip').forEach(x => x.classList.toggle('on', x === b)); }));
+  $('#c-email').addEventListener('click', () => $('#copy-email').click());
+    $('#c-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const msg = $('#c-msg').value.trim();
+    location.href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent(reason) + '&body=' + encodeURIComponent(msg);
+  });
+  $('#c-copy').addEventListener('click', async () => {
+    const t = $('#c-msg').value.trim(); if (!t) { toast('write something first'); return; }
+    try { await navigator.clipboard.writeText(t); toast('message copied'); } catch (e) { toast('select and copy it manually'); }
+  });
+
+  /* keyboard */
+  addEventListener('keydown', e => {
+    if (e.metaKey || e.ctrlKey || e.altKey || /^(INPUT|TEXTAREA)$/.test((e.target || {}).tagName)) return;
+    const k = e.key.toLowerCase();
+    if (k === 'r') location.hash = 'research'; else if (k === 'h') location.hash = 'home'; else if (k === 'w') location.hash = 'work'; else if (k === 'c') location.hash = 'contact'; else if (k === 't') tidyTags();
+  });
+
+  route();
+})();
+</script>
+</body>
+</html>
